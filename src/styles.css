@@ -38,6 +38,21 @@
   --color-ring-offset-background: var(--background);
   --shadow-card: var(--shadow-card);
   --shadow-card-hover: var(--shadow-card-hover);
+  --color-orange: var(--orange);
+  --color-orange-foreground: var(--orange-foreground);
+  --color-orange-soft: var(--orange-soft);
+  --color-orange-ink: var(--orange-ink);
+  --color-violet: var(--violet);
+  --color-violet-soft: var(--violet-soft);
+  --color-teal: var(--teal);
+  --color-teal-soft: var(--teal-soft);
+  --color-green: var(--green);
+  --color-green-soft: var(--green-soft);
+  --color-brand-youtube: var(--brand-youtube);
+  --color-brand-instagram: var(--brand-instagram);
+  --color-brand-tiktok: var(--brand-tiktok);
+  --color-brand-x: var(--brand-x);
+  --shadow-soft: var(--shadow-soft);
 }
 
 :root {
@@ -66,7 +81,22 @@
   --input: oklch(0.89 0.008 255);
   --ring: oklch(0.53 0.2 259);
   --shadow-card: 0 1px 2px oklch(0.2 0.02 260 / 0.04);
-  --shadow-card-hover: 0 8px 24px -12px oklch(0.3 0.08 259 / 0.18);
+  --shadow-card-hover: 0 14px 32px -16px oklch(0.3 0.08 259 / 0.25);
+  --shadow-soft: 0 1px 2px oklch(0.2 0.02 260 / 0.04), 0 10px 30px -18px oklch(0.3 0.06 259 / 0.22);
+  --orange: oklch(0.68 0.19 45);
+  --orange-foreground: oklch(0.99 0 0);
+  --orange-soft: oklch(0.97 0.03 60);
+  --orange-ink: oklch(0.52 0.16 42);
+  --violet: oklch(0.52 0.22 292);
+  --violet-soft: oklch(0.965 0.025 295);
+  --teal: oklch(0.52 0.1 190);
+  --teal-soft: oklch(0.965 0.025 190);
+  --green: oklch(0.52 0.13 155);
+  --green-soft: oklch(0.965 0.03 155);
+  --brand-youtube: #ff0000;
+  --brand-instagram: #e4405f;
+  --brand-tiktok: #000000;
+  --brand-x: #000000;
 }
 
 @layer base {
