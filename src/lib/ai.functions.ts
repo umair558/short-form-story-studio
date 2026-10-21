@@ -35,7 +35,7 @@ function buildPrompt(d: ListInput): string {
 }
 
 export const generateList = createServerFn({ method: "POST" })
-  .inputValidator((input: unknown) => listInput.parse(input))
+  .validator((input: unknown) => listInput.parse(input))
   .handler(async ({ data }) => {
     const { generateStructured } = await import("./ai.server");
     const res = await generateStructured(z.object({ items: z.array(z.string()) }), RULES, buildPrompt(data));
@@ -48,7 +48,7 @@ export const generateList = createServerFn({ method: "POST" })
 export const workflowInput = z.object({ topic: text(300), platform });
 
 export const generateWorkflow = createServerFn({ method: "POST" })
-  .inputValidator((input: unknown) => workflowInput.parse(input))
+  .validator((input: unknown) => workflowInput.parse(input))
   .handler(async ({ data }) => {
     const { generateStructured } = await import("./ai.server");
     const schema = z.object({
