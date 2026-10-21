@@ -17,6 +17,7 @@ import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ToolsIndexRouteImport } from './routes/tools.index'
+import { Route as ToolsAiThumbnailGeneratorRouteImport } from './routes/tools.ai-thumbnail-generator'
 import { Route as ToolsBioGeneratorRouteImport } from './routes/tools.bio-generator'
 import { Route as ToolsCaptionGeneratorRouteImport } from './routes/tools.caption-generator'
 import { Route as ToolsContentCalendarRouteImport } from './routes/tools.content-calendar'
@@ -70,6 +71,12 @@ const ToolsIndexRoute = ToolsIndexRouteImport.update({
   path: '/tools/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsAiThumbnailGeneratorRoute =
+  ToolsAiThumbnailGeneratorRouteImport.update({
+    id: '/tools/ai-thumbnail-generator',
+    path: '/tools/ai-thumbnail-generator',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ToolsBioGeneratorRoute = ToolsBioGeneratorRouteImport.update({
   id: '/tools/bio-generator',
   path: '/tools/bio-generator',
@@ -141,6 +148,7 @@ export interface FileRoutesByFullPath {
   '/how-it-works': typeof HowItWorksRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
+  '/tools/ai-thumbnail-generator': typeof ToolsAiThumbnailGeneratorRoute
   '/tools/bio-generator': typeof ToolsBioGeneratorRoute
   '/tools/caption-generator': typeof ToolsCaptionGeneratorRoute
   '/tools/content-calendar': typeof ToolsContentCalendarRoute
@@ -163,6 +171,7 @@ export interface FileRoutesByTo {
   '/how-it-works': typeof HowItWorksRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
+  '/tools/ai-thumbnail-generator': typeof ToolsAiThumbnailGeneratorRoute
   '/tools/bio-generator': typeof ToolsBioGeneratorRoute
   '/tools/caption-generator': typeof ToolsCaptionGeneratorRoute
   '/tools/content-calendar': typeof ToolsContentCalendarRoute
@@ -186,6 +195,7 @@ export interface FileRoutesById {
   '/how-it-works': typeof HowItWorksRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
+  '/tools/ai-thumbnail-generator': typeof ToolsAiThumbnailGeneratorRoute
   '/tools/bio-generator': typeof ToolsBioGeneratorRoute
   '/tools/caption-generator': typeof ToolsCaptionGeneratorRoute
   '/tools/content-calendar': typeof ToolsContentCalendarRoute
@@ -210,6 +220,7 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/privacy'
     | '/terms'
+    | '/tools/ai-thumbnail-generator'
     | '/tools/bio-generator'
     | '/tools/caption-generator'
     | '/tools/content-calendar'
@@ -232,6 +243,7 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/privacy'
     | '/terms'
+    | '/tools/ai-thumbnail-generator'
     | '/tools/bio-generator'
     | '/tools/caption-generator'
     | '/tools/content-calendar'
@@ -254,6 +266,7 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/privacy'
     | '/terms'
+    | '/tools/ai-thumbnail-generator'
     | '/tools/bio-generator'
     | '/tools/caption-generator'
     | '/tools/content-calendar'
@@ -277,6 +290,7 @@ export interface RootRouteChildren {
   HowItWorksRoute: typeof HowItWorksRoute
   PrivacyRoute: typeof PrivacyRoute
   TermsRoute: typeof TermsRoute
+  ToolsAiThumbnailGeneratorRoute: typeof ToolsAiThumbnailGeneratorRoute
   ToolsBioGeneratorRoute: typeof ToolsBioGeneratorRoute
   ToolsCaptionGeneratorRoute: typeof ToolsCaptionGeneratorRoute
   ToolsContentCalendarRoute: typeof ToolsContentCalendarRoute
@@ -348,6 +362,13 @@ declare module '@tanstack/react-router' {
       path: '/tools'
       fullPath: '/tools/'
       preLoaderRoute: typeof ToolsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/ai-thumbnail-generator': {
+      id: '/tools/ai-thumbnail-generator'
+      path: '/tools/ai-thumbnail-generator'
+      fullPath: '/tools/ai-thumbnail-generator'
+      preLoaderRoute: typeof ToolsAiThumbnailGeneratorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tools/bio-generator': {
@@ -445,6 +466,7 @@ const rootRouteChildren: RootRouteChildren = {
   HowItWorksRoute: HowItWorksRoute,
   PrivacyRoute: PrivacyRoute,
   TermsRoute: TermsRoute,
+  ToolsAiThumbnailGeneratorRoute: ToolsAiThumbnailGeneratorRoute,
   ToolsBioGeneratorRoute: ToolsBioGeneratorRoute,
   ToolsCaptionGeneratorRoute: ToolsCaptionGeneratorRoute,
   ToolsContentCalendarRoute: ToolsContentCalendarRoute,
