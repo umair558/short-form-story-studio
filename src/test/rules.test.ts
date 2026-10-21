@@ -26,7 +26,7 @@ describe("image rules", () => {
 
 describe("tool search", () => {
   it("filters image tools by category", () => {
-    expect(filterTools("", "Image").map((t) => t.slug)).toEqual(["image-resizer", "image-compressor"]);
+    expect(filterTools("", "Image").map((t) => t.slug)).toEqual(["image-resizer", "image-compressor", "youtube-thumbnail-maker"]);
   });
   it("finds hashtag tool by query", () => {
     expect(filterTools("hashtag", "All").map((t) => t.slug)).toContain("hashtag-assistant");
@@ -51,4 +51,27 @@ describe("social media filter", () => {
     expect(s).toContain("hook-generator");
     expect(s).not.toContain("image-compressor");
   });
+});
+
+import { calendarInput } from "@/lib/ai.functions";
+import { calendarToCsv, dateForDay } from "@/lib/calendar";
+import { coverSource } from "@/lib/thumbnail";
+
+describe("new tools", () => {
+  it("calendar accepts 7, 14 and 30 days only", () => {
+    for (const days of [7, 14, 30]) expect(calendarInput.safeParse({ niche: "fitness", platform: "TikTok", days }).success).toBe(true);
+    expect(calendarInput.safeParse({ niche: "fitness", platform: "TikTok", days: 10 }).success).toBe(false);
+  });
+  it("day 30 from 2026-10-21 is 2026-11-19", () => expect(dateForDay("2026-10-21", 30)).toBe("2026-11-19"));
+  it("CSV escapes commas and quotes", () => {
+    const csv = calendarToCsv([{ day: 1, theme: "Tips", format: "Talk", idea: 'Say "hi", wave', hook: "Go" }], "2026-01-01");
+    expect(csv.split("\n")[1]).toBe('1,2026-01-01,Tips,Talk,"Say ""hi"", wave",Go');
+  });
+  it("thumbnail cover-crops a square photo to 16:9 centered", () => {
+    const r = coverSource(1000, 1000, 1, 0, 0);
+    expect(r.sw).toBeCloseTo(1000);
+    expect(r.sh).toBeCloseTo(562.5);
+    expect(r.sy).toBeCloseTo(218.75);
+  });
+  it("finds the calendar by searching 'month'", () => expect(filterTools("month", "All").map((t) => t.slug)).toContain("content-calendar"));
 });
