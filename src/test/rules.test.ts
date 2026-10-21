@@ -26,7 +26,7 @@ describe("image rules", () => {
 
 describe("tool search", () => {
   it("filters image tools by category", () => {
-    expect(filterTools("", "Image").map((t) => t.slug)).toEqual(["image-resizer", "image-compressor", "youtube-thumbnail-maker"]);
+    expect(filterTools("", "Image").map((t) => t.slug)).toEqual(["ai-thumbnail-generator", "image-resizer", "image-compressor", "youtube-thumbnail-maker"]);
   });
   it("finds hashtag tool by query", () => {
     expect(filterTools("hashtag", "All").map((t) => t.slug)).toContain("hashtag-assistant");

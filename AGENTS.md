@@ -11,7 +11,8 @@
 
 ## Architecture rules
 - Tool registry lives in `src/lib/tools.ts`; cards, search, footer and filters read from it so adding a tool is one entry plus one route file.
-- AI calls go only through server functions in `src/lib/ai.functions.ts`, which lazy-import `src/lib/ai.server.ts`; keeps the API key server-side and returns `{ok,error}` instead of throwing so the UI shows honest "unavailable" messages, never fake output.
+- Text AI calls use `src/lib/ai.functions.ts`; Gemini image calls use `src/lib/ai-thumbnail.functions.ts`. Both lazy-import server-only helpers, keeping keys server-side and returning honest error results rather than fake output.
+- Gemini thumbnails use Google's documented Interactions API with a server-only GEMINI_API_KEY, explicit user-triggered requests, 2K JPEG output and image signature/browser decode validation; no automatic retries or sample-image fallback.
 - Image tools run fully client-side via canvas (`src/lib/image.ts`) and are lazy-loaded behind `ClientOnly`; no image uploads.
 - Ad placements use `AdSlot`, which renders nothing until a provider is configured; no fake ads.
 - Platform logos come only from `src/components/brand-icons.tsx` (official Simple Icons paths) and per-tool colours from `tone` in the registry mapped via `src/lib/tone.ts`; keeps brand marks accurate and colour classes literal for Tailwind.
