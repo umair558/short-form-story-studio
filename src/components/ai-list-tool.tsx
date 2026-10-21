@@ -1,3 +1,4 @@
+import { PlatformPicker } from "./platform-picker";
 import { useServerFn } from "@tanstack/react-start";
 import { Loader2, RefreshCw, Sparkles, AlertCircle } from "lucide-react";
 import { useState, type FormEvent } from "react";
