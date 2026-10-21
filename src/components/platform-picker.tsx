@@ -36,7 +36,6 @@ export function PlatformPicker({
           </button>
         );
       })}
-      <span className="sr-only" id={`${id}-desc`}>{label}</span>
     </div>
   );
 }
