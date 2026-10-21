@@ -19,12 +19,14 @@ export function ToolPage({
   privacy,
   children,
   guide,
+  faq,
 }: {
   title: string;
   intro: string;
   privacy: string;
   children: ReactNode;
   guide: ReactNode;
+  faq?: { q: string; a: string }[];
 }) {
   return (
     <main>
@@ -42,6 +44,19 @@ export function ToolPage({
       <div className="mx-auto max-w-3xl px-4 sm:px-6"><AdSlot id="tool-below" /></div>
       <article className="prose-guide mx-auto mt-12 max-w-3xl space-y-4 px-4 text-base leading-relaxed text-muted-foreground sm:px-6 [&_h2]:mt-8 [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-foreground [&_li]:ml-5 [&_li]:list-disc [&_strong]:text-foreground">
         {guide}
+        {faq && faq.length > 0 && (
+          <>
+            <h2>Frequently asked questions</h2>
+            <dl className="space-y-4">
+              {faq.map((f) => (
+                <div key={f.q}>
+                  <dt className="font-semibold text-foreground">{f.q}</dt>
+                  <dd className="mt-1">{f.a}</dd>
+                </div>
+              ))}
+            </dl>
+          </>
+        )}
       </article>
     </main>
   );

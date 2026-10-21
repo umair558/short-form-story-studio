@@ -72,3 +72,52 @@ export const generateWorkflow = createServerFn({ method: "POST" })
       data: { ...res.data, hashtags: res.data.hashtags.map((h) => h.trim()).filter(Boolean).slice(0, 15) },
     };
   });
+
+export const youtubeInput = z.object({
+  topic: text(400),
+  keywords: z.string().trim().max(200).default(""),
+  style: z.enum(["Educational", "Entertaining", "Story-driven", "Review", "Tutorial"]).default("Educational"),
+});
+
+export const generateYoutube = createServerFn({ method: "POST" })
+  .validator((input: unknown) => youtubeInput.parse(input))
+  .handler(async ({ data }) => {
+    const { generateStructured } = await import("./ai.server");
+    const schema = z.object({ titles: z.array(z.string()), description: z.string(), tags: z.array(z.string()) });
+    const res = await generateStructured(
+      schema,
+      RULES,
+      `Create YouTube metadata for a ${data.style.toLowerCase()} video about: "${data.topic}".${data.keywords ? ` Work in these keywords naturally: ${data.keywords}.` : ""} titles: 6 distinct titles, each under 70 characters, honest (no clickbait lies). description: 120–250 words: a 2-line opening summary with the main keyword, a short paragraph on what viewers learn, a "In this video:" list of 3–5 points as lines starting with "- ", and a closing call to subscribe. Add timestamp placeholders only as "00:00 Intro". tags: 12 relevant search tags without # symbols.`,
+    );
+    if (!res.ok) return res;
+    const titles = res.data.titles.map((s) => s.trim()).filter(Boolean).slice(0, 10);
+    if (!titles.length || !res.data.description.trim()) return { ok: false as const, code: "empty", error: "No result was returned. Please try again." };
+    return { ok: true as const, data: { titles, description: res.data.description.trim(), tags: res.data.tags.map((t) => t.replace(/^#/, "").trim()).filter(Boolean).slice(0, 20) } };
+  });
+
+export const calendarInput = z.object({
+  niche: text(200),
+  platform,
+  days: z.union([z.literal(7), z.literal(14), z.literal(30)]),
+  goal: z.enum(["Grow followers", "Build engagement", "Sell a product", "Build authority"]).default("Grow followers"),
+});
+
+export type CalendarDay = { day: number; theme: string; format: string; idea: string; hook: string };
+
+export const generateCalendar = createServerFn({ method: "POST" })
+  .validator((input: unknown) => calendarInput.parse(input))
+  .handler(async ({ data }) => {
+    const { generateStructured } = await import("./ai.server");
+    const schema = z.object({
+      days: z.array(z.object({ day: z.number(), theme: z.string(), format: z.string(), idea: z.string(), hook: z.string() })),
+    });
+    const res = await generateStructured(
+      schema,
+      RULES,
+      `Plan a ${data.days}-day ${data.platform} content calendar for a creator in the "${data.niche}" niche. Goal: ${data.goal}. Return exactly ${data.days} entries, day 1 to ${data.days}, one post per day. Rotate content pillars (educational, entertaining, personal, community, promotional at most once a week). theme: 1–3 word pillar name. format: e.g. "Talking head", "Tutorial", "Carousel", "Behind the scenes", "Q&A", "Duet/Stitch". idea: one specific sentence. hook: an opening line under 15 words. Keep each day different.`,
+    );
+    if (!res.ok) return res;
+    const days = res.data.days.slice(0, data.days).map((d, i) => ({ ...d, day: i + 1 }));
+    if (days.length < Math.min(data.days, 5)) return { ok: false as const, code: "empty", error: "The plan came back incomplete. Please try again." };
+    return { ok: true as const, data: { days } };
+  });

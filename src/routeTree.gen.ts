@@ -19,6 +19,7 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ToolsIndexRouteImport } from './routes/tools.index'
 import { Route as ToolsBioGeneratorRouteImport } from './routes/tools.bio-generator'
 import { Route as ToolsCaptionGeneratorRouteImport } from './routes/tools.caption-generator'
+import { Route as ToolsContentCalendarRouteImport } from './routes/tools.content-calendar'
 import { Route as ToolsContentIdeasRouteImport } from './routes/tools.content-ideas'
 import { Route as ToolsCreatorWorkflowRouteImport } from './routes/tools.creator-workflow'
 import { Route as ToolsHashtagAssistantRouteImport } from './routes/tools.hashtag-assistant'
@@ -26,6 +27,8 @@ import { Route as ToolsHookGeneratorRouteImport } from './routes/tools.hook-gene
 import { Route as ToolsImageCompressorRouteImport } from './routes/tools.image-compressor'
 import { Route as ToolsImageResizerRouteImport } from './routes/tools.image-resizer'
 import { Route as ToolsThumbnailTextRouteImport } from './routes/tools.thumbnail-text'
+import { Route as ToolsYoutubeThumbnailMakerRouteImport } from './routes/tools.youtube-thumbnail-maker'
+import { Route as ToolsYoutubeTitleDescriptionRouteImport } from './routes/tools.youtube-title-description'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -77,6 +80,11 @@ const ToolsCaptionGeneratorRoute = ToolsCaptionGeneratorRouteImport.update({
   path: '/tools/caption-generator',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsContentCalendarRoute = ToolsContentCalendarRouteImport.update({
+  id: '/tools/content-calendar',
+  path: '/tools/content-calendar',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ToolsContentIdeasRoute = ToolsContentIdeasRouteImport.update({
   id: '/tools/content-ideas',
   path: '/tools/content-ideas',
@@ -112,6 +120,18 @@ const ToolsThumbnailTextRoute = ToolsThumbnailTextRouteImport.update({
   path: '/tools/thumbnail-text',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsYoutubeThumbnailMakerRoute =
+  ToolsYoutubeThumbnailMakerRouteImport.update({
+    id: '/tools/youtube-thumbnail-maker',
+    path: '/tools/youtube-thumbnail-maker',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ToolsYoutubeTitleDescriptionRoute =
+  ToolsYoutubeTitleDescriptionRouteImport.update({
+    id: '/tools/youtube-title-description',
+    path: '/tools/youtube-title-description',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -123,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/tools/bio-generator': typeof ToolsBioGeneratorRoute
   '/tools/caption-generator': typeof ToolsCaptionGeneratorRoute
+  '/tools/content-calendar': typeof ToolsContentCalendarRoute
   '/tools/content-ideas': typeof ToolsContentIdeasRoute
   '/tools/creator-workflow': typeof ToolsCreatorWorkflowRoute
   '/tools/hashtag-assistant': typeof ToolsHashtagAssistantRoute
@@ -130,6 +151,8 @@ export interface FileRoutesByFullPath {
   '/tools/image-compressor': typeof ToolsImageCompressorRoute
   '/tools/image-resizer': typeof ToolsImageResizerRoute
   '/tools/thumbnail-text': typeof ToolsThumbnailTextRoute
+  '/tools/youtube-thumbnail-maker': typeof ToolsYoutubeThumbnailMakerRoute
+  '/tools/youtube-title-description': typeof ToolsYoutubeTitleDescriptionRoute
   '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -142,6 +165,7 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/tools/bio-generator': typeof ToolsBioGeneratorRoute
   '/tools/caption-generator': typeof ToolsCaptionGeneratorRoute
+  '/tools/content-calendar': typeof ToolsContentCalendarRoute
   '/tools/content-ideas': typeof ToolsContentIdeasRoute
   '/tools/creator-workflow': typeof ToolsCreatorWorkflowRoute
   '/tools/hashtag-assistant': typeof ToolsHashtagAssistantRoute
@@ -149,6 +173,8 @@ export interface FileRoutesByTo {
   '/tools/image-compressor': typeof ToolsImageCompressorRoute
   '/tools/image-resizer': typeof ToolsImageResizerRoute
   '/tools/thumbnail-text': typeof ToolsThumbnailTextRoute
+  '/tools/youtube-thumbnail-maker': typeof ToolsYoutubeThumbnailMakerRoute
+  '/tools/youtube-title-description': typeof ToolsYoutubeTitleDescriptionRoute
   '/tools': typeof ToolsIndexRoute
 }
 export interface FileRoutesById {
@@ -162,6 +188,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/tools/bio-generator': typeof ToolsBioGeneratorRoute
   '/tools/caption-generator': typeof ToolsCaptionGeneratorRoute
+  '/tools/content-calendar': typeof ToolsContentCalendarRoute
   '/tools/content-ideas': typeof ToolsContentIdeasRoute
   '/tools/creator-workflow': typeof ToolsCreatorWorkflowRoute
   '/tools/hashtag-assistant': typeof ToolsHashtagAssistantRoute
@@ -169,6 +196,8 @@ export interface FileRoutesById {
   '/tools/image-compressor': typeof ToolsImageCompressorRoute
   '/tools/image-resizer': typeof ToolsImageResizerRoute
   '/tools/thumbnail-text': typeof ToolsThumbnailTextRoute
+  '/tools/youtube-thumbnail-maker': typeof ToolsYoutubeThumbnailMakerRoute
+  '/tools/youtube-title-description': typeof ToolsYoutubeTitleDescriptionRoute
   '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRouteTypes {
@@ -183,6 +212,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/tools/bio-generator'
     | '/tools/caption-generator'
+    | '/tools/content-calendar'
     | '/tools/content-ideas'
     | '/tools/creator-workflow'
     | '/tools/hashtag-assistant'
@@ -190,6 +220,8 @@ export interface FileRouteTypes {
     | '/tools/image-compressor'
     | '/tools/image-resizer'
     | '/tools/thumbnail-text'
+    | '/tools/youtube-thumbnail-maker'
+    | '/tools/youtube-title-description'
     | '/tools/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -202,6 +234,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/tools/bio-generator'
     | '/tools/caption-generator'
+    | '/tools/content-calendar'
     | '/tools/content-ideas'
     | '/tools/creator-workflow'
     | '/tools/hashtag-assistant'
@@ -209,6 +242,8 @@ export interface FileRouteTypes {
     | '/tools/image-compressor'
     | '/tools/image-resizer'
     | '/tools/thumbnail-text'
+    | '/tools/youtube-thumbnail-maker'
+    | '/tools/youtube-title-description'
     | '/tools'
   id:
     | '__root__'
@@ -221,6 +256,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/tools/bio-generator'
     | '/tools/caption-generator'
+    | '/tools/content-calendar'
     | '/tools/content-ideas'
     | '/tools/creator-workflow'
     | '/tools/hashtag-assistant'
@@ -228,6 +264,8 @@ export interface FileRouteTypes {
     | '/tools/image-compressor'
     | '/tools/image-resizer'
     | '/tools/thumbnail-text'
+    | '/tools/youtube-thumbnail-maker'
+    | '/tools/youtube-title-description'
     | '/tools/'
   fileRoutesById: FileRoutesById
 }
@@ -241,6 +279,7 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   ToolsBioGeneratorRoute: typeof ToolsBioGeneratorRoute
   ToolsCaptionGeneratorRoute: typeof ToolsCaptionGeneratorRoute
+  ToolsContentCalendarRoute: typeof ToolsContentCalendarRoute
   ToolsContentIdeasRoute: typeof ToolsContentIdeasRoute
   ToolsCreatorWorkflowRoute: typeof ToolsCreatorWorkflowRoute
   ToolsHashtagAssistantRoute: typeof ToolsHashtagAssistantRoute
@@ -248,6 +287,8 @@ export interface RootRouteChildren {
   ToolsImageCompressorRoute: typeof ToolsImageCompressorRoute
   ToolsImageResizerRoute: typeof ToolsImageResizerRoute
   ToolsThumbnailTextRoute: typeof ToolsThumbnailTextRoute
+  ToolsYoutubeThumbnailMakerRoute: typeof ToolsYoutubeThumbnailMakerRoute
+  ToolsYoutubeTitleDescriptionRoute: typeof ToolsYoutubeTitleDescriptionRoute
   ToolsIndexRoute: typeof ToolsIndexRoute
 }
 
@@ -323,6 +364,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsCaptionGeneratorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools/content-calendar': {
+      id: '/tools/content-calendar'
+      path: '/tools/content-calendar'
+      fullPath: '/tools/content-calendar'
+      preLoaderRoute: typeof ToolsContentCalendarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tools/content-ideas': {
       id: '/tools/content-ideas'
       path: '/tools/content-ideas'
@@ -372,6 +420,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsThumbnailTextRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools/youtube-thumbnail-maker': {
+      id: '/tools/youtube-thumbnail-maker'
+      path: '/tools/youtube-thumbnail-maker'
+      fullPath: '/tools/youtube-thumbnail-maker'
+      preLoaderRoute: typeof ToolsYoutubeThumbnailMakerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/youtube-title-description': {
+      id: '/tools/youtube-title-description'
+      path: '/tools/youtube-title-description'
+      fullPath: '/tools/youtube-title-description'
+      preLoaderRoute: typeof ToolsYoutubeTitleDescriptionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -385,6 +447,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   ToolsBioGeneratorRoute: ToolsBioGeneratorRoute,
   ToolsCaptionGeneratorRoute: ToolsCaptionGeneratorRoute,
+  ToolsContentCalendarRoute: ToolsContentCalendarRoute,
   ToolsContentIdeasRoute: ToolsContentIdeasRoute,
   ToolsCreatorWorkflowRoute: ToolsCreatorWorkflowRoute,
   ToolsHashtagAssistantRoute: ToolsHashtagAssistantRoute,
@@ -392,6 +455,8 @@ const rootRouteChildren: RootRouteChildren = {
   ToolsImageCompressorRoute: ToolsImageCompressorRoute,
   ToolsImageResizerRoute: ToolsImageResizerRoute,
   ToolsThumbnailTextRoute: ToolsThumbnailTextRoute,
+  ToolsYoutubeThumbnailMakerRoute: ToolsYoutubeThumbnailMakerRoute,
+  ToolsYoutubeTitleDescriptionRoute: ToolsYoutubeTitleDescriptionRoute,
   ToolsIndexRoute: ToolsIndexRoute,
 }
 export const routeTree = rootRouteImport

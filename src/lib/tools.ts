@@ -8,6 +8,9 @@ import {
   Crop,
   FileDown,
   Workflow,
+  MonitorPlay,
+  CalendarDays,
+  ImagePlus,
   type LucideIcon,
 } from "lucide-react";
 
@@ -26,7 +29,10 @@ export interface ToolInfo {
     | "/tools/bio-generator"
     | "/tools/thumbnail-text"
     | "/tools/image-resizer"
-    | "/tools/image-compressor";
+    | "/tools/image-compressor"
+    | "/tools/youtube-title-description"
+    | "/tools/content-calendar"
+    | "/tools/youtube-thumbnail-maker";
   name: string;
   short: string;
   category: ToolCategory;
@@ -139,6 +145,41 @@ export const TOOLS: ToolInfo[] = [
     category: "Image",
     icon: FileDown,
     keywords: "compress reduce size optimize",
+  },
+  {
+    slug: "youtube-title-description",
+    tone: "orange",
+    social: true,
+    path: "/tools/youtube-title-description",
+    name: "YouTube Title & Description Generator",
+    short: "Search-friendly title options, a full description and tags for your next upload.",
+    category: "AI Writing",
+    icon: MonitorPlay,
+    popular: true,
+    keywords: "youtube title description tags seo metadata upload",
+  },
+  {
+    slug: "content-calendar",
+    tone: "blue",
+    social: true,
+    path: "/tools/content-calendar",
+    name: "Social Media Content Calendar",
+    short: "A 7, 14 or 30-day posting plan with daily ideas and hooks. Export to CSV.",
+    category: "Workflow",
+    icon: CalendarDays,
+    keywords: "calendar schedule plan posting 7 14 30 days month week",
+  },
+  {
+    slug: "youtube-thumbnail-maker",
+    tone: "violet",
+    social: true,
+    path: "/tools/youtube-thumbnail-maker",
+    name: "YouTube Thumbnail Maker",
+    short: "Design a 1280×720 thumbnail with your photo, bold text and filters, then download.",
+    category: "Image",
+    icon: ImagePlus,
+    popular: true,
+    keywords: "thumbnail youtube cover design editor text image",
   },
 ];
 
