@@ -32,7 +32,8 @@ export interface ToolInfo {
     | "/tools/image-compressor"
     | "/tools/youtube-title-description"
     | "/tools/content-calendar"
-    | "/tools/youtube-thumbnail-maker";
+    | "/tools/youtube-thumbnail-maker"
+    | "/tools/ai-thumbnail-generator";
   name: string;
   short: string;
   category: ToolCategory;
@@ -45,6 +46,18 @@ export interface ToolInfo {
 }
 
 export const TOOLS: ToolInfo[] = [
+  {
+    slug: "ai-thumbnail-generator",
+    path: "/tools/ai-thumbnail-generator",
+    name: "AI Text-to-Thumbnail Generator",
+    short: "Generate real HD thumbnails and Shorts covers from your idea with Google Gemini.",
+    category: "Image",
+    icon: ImagePlus,
+    tone: "violet",
+    social: true,
+    popular: true,
+    keywords: "ai gemini nano banana text to image gaming cinematic horror viral professional 16:9 9:16",
+  },
   {
     slug: "creator-workflow",
     tone: "blueViolet",
