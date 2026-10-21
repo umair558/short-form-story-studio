@@ -37,7 +37,18 @@ describe("AI input validation", () => {
   it("rejects a 1-character topic", () => {
     expect(listInput.safeParse({ tool: "hook", topic: "a", platform: "TikTok" }).success).toBe(false);
   });
+  it("accepts X as a platform", () => {
+    expect(listInput.safeParse({ tool: "hook", topic: "cooking", platform: "X" }).success).toBe(true);
+  });
   it("rejects unknown platforms", () => {
     expect(listInput.safeParse({ tool: "hook", topic: "cooking", platform: "MySpace" }).success).toBe(false);
+  });
+});
+
+describe("social media filter", () => {
+  it("includes the hook generator but not the compressor", () => {
+    const s = filterTools("", "Social Media").map((t) => t.slug);
+    expect(s).toContain("hook-generator");
+    expect(s).not.toContain("image-compressor");
   });
 });
