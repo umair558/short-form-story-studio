@@ -1,8 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, ShieldCheck, Zap, MousePointerClick } from "lucide-react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { ArrowRight, ShieldCheck, Zap, MousePointerClick, Search } from "lucide-react";
+import { useState } from "react";
 import { seo } from "@/lib/seo";
 import { TOOLS } from "@/lib/tools";
-import { ToolBrowser } from "@/components/tool-browser";
 import { ToolCard } from "@/components/tool-card";
 import { WorkflowTool } from "@/components/workflow-tool";
 import { AdSlot } from "@/components/ad-slot";
@@ -38,7 +38,7 @@ function Index() {
           plus private image tools that run right in your browser.
         </p>
         <div className="mx-auto mt-8 max-w-2xl text-left">
-          <ToolBrowserHero />
+          <HeroSearch />
         </div>
       </section>
 
@@ -121,15 +121,6 @@ function Index() {
   );
 }
 
-function ToolBrowserHero() {
-  // Search box on the home page jumps to the full tools directory with filters.
-  return <HeroSearch />;
-}
-
-import { useNavigate } from "@tanstack/react-router";
-import { Search } from "lucide-react";
-import { useState } from "react";
-
 function HeroSearch() {
   const [q, setQ] = useState("");
   const navigate = useNavigate();
@@ -152,5 +143,3 @@ function HeroSearch() {
   );
 }
 
-// Keep ToolBrowser import used for tree-shaking clarity in other routes.
-void ToolBrowser;
