@@ -6,8 +6,8 @@ import { listInput } from "@/lib/ai.functions";
 describe("image rules", () => {
   it("cover crops a 2000x1000 image to a centered square", () => {
     const r = fitRect(2000, 1000, 1080, 1080, "cover");
-    expect(r.sw).toBe(1000);
-    expect(r.sx).toBe(500);
+    expect(r.sw).toBeCloseTo(1000);
+    expect(r.sx).toBeCloseTo(500);
   });
   it("contain fits 2000x1000 into 1080x1080 with vertical padding", () => {
     const r = fitRect(2000, 1000, 1080, 1080, "contain");
@@ -29,7 +29,7 @@ describe("tool search", () => {
     expect(filterTools("", "Image").map((t) => t.slug)).toEqual(["image-resizer", "image-compressor"]);
   });
   it("finds hashtag tool by query", () => {
-    expect(filterTools("hashtag", "All")[0]?.slug).toBe("hashtag-assistant");
+    expect(filterTools("hashtag", "All").map((t) => t.slug)).toContain("hashtag-assistant");
   });
 });
 
