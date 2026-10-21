@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 
 export type ToolCategory = "AI Writing" | "Image" | "Workflow";
+export type ToolTone = "blue" | "orange" | "violet" | "teal" | "green" | "blueViolet";
+export type ToolFilter = "All" | ToolCategory | "Social Media";
 
 export interface ToolInfo {
   slug: string;
@@ -30,12 +32,17 @@ export interface ToolInfo {
   category: ToolCategory;
   icon: LucideIcon;
   popular?: boolean;
+  tone: ToolTone;
+  /** Used directly for social posts (the "Social Media" filter). */
+  social?: boolean;
   keywords: string;
 }
 
 export const TOOLS: ToolInfo[] = [
   {
     slug: "creator-workflow",
+    tone: "blueViolet",
+    social: true,
     path: "/tools/creator-workflow",
     name: "Creator Workflow",
     short: "One topic in, a full post package out: hook, caption, hashtags and thumbnail text.",
@@ -46,6 +53,8 @@ export const TOOLS: ToolInfo[] = [
   },
   {
     slug: "caption-generator",
+    tone: "blue",
+    social: true,
     path: "/tools/caption-generator",
     name: "AI Caption Generator",
     short: "Write platform-ready captions in the tone that fits your channel.",
@@ -56,6 +65,8 @@ export const TOOLS: ToolInfo[] = [
   },
   {
     slug: "hook-generator",
+    tone: "orange",
+    social: true,
     path: "/tools/hook-generator",
     name: "Viral Hook Generator",
     short: "Get several scroll-stopping opening lines for your next short video.",
@@ -66,6 +77,8 @@ export const TOOLS: ToolInfo[] = [
   },
   {
     slug: "hashtag-assistant",
+    tone: "violet",
+    social: true,
     path: "/tools/hashtag-assistant",
     name: "Hashtag Assistant",
     short: "Relevant hashtag suggestions grouped from broad to niche.",
@@ -75,6 +88,7 @@ export const TOOLS: ToolInfo[] = [
   },
   {
     slug: "content-ideas",
+    tone: "teal",
     path: "/tools/content-ideas",
     name: "Content Idea Generator",
     short: "Fresh video ideas tailored to your niche and platform.",
@@ -84,6 +98,8 @@ export const TOOLS: ToolInfo[] = [
   },
   {
     slug: "bio-generator",
+    tone: "blueViolet",
+    social: true,
     path: "/tools/bio-generator",
     name: "Bio Generator",
     short: "Short, clear profile bios that say what you do and why to follow.",
@@ -93,6 +109,8 @@ export const TOOLS: ToolInfo[] = [
   },
   {
     slug: "thumbnail-text",
+    tone: "orange",
+    social: true,
     path: "/tools/thumbnail-text",
     name: "Thumbnail Text Generator",
     short: "Punchy 2–5 word overlays for covers and thumbnails.",
@@ -102,6 +120,8 @@ export const TOOLS: ToolInfo[] = [
   },
   {
     slug: "image-resizer",
+    tone: "teal",
+    social: true,
     path: "/tools/image-resizer",
     name: "Social Media Image Resizer",
     short: "Resize images to exact platform sizes, right in your browser.",
@@ -112,6 +132,7 @@ export const TOOLS: ToolInfo[] = [
   },
   {
     slug: "image-compressor",
+    tone: "green",
     path: "/tools/image-compressor",
     name: "Image Compressor",
     short: "Shrink file size with a quality slider. Nothing leaves your device.",
@@ -121,15 +142,16 @@ export const TOOLS: ToolInfo[] = [
   },
 ];
 
-export const CATEGORIES: ("All" | ToolCategory)[] = ["All", "Workflow", "AI Writing", "Image"];
+export const CATEGORIES: ToolFilter[] = ["All", "Workflow", "AI Writing", "Social Media", "Image"];
 
-export function filterTools(query: string, category: "All" | ToolCategory) {
+export function filterTools(query: string, category: ToolFilter) {
   const q = query.trim().toLowerCase();
   return TOOLS.filter(
     (t) =>
-      (category === "All" || t.category === category) &&
+      (category === "All" || (category === "Social Media" ? !!t.social : t.category === category)) &&
       (!q || `${t.name} ${t.short} ${t.keywords}`.toLowerCase().includes(q)),
   );
 }
 
-export const PLATFORMS = ["TikTok", "Instagram Reels", "YouTube Shorts"] as const;
+export const PLATFORMS = ["TikTok", "Instagram Reels", "YouTube Shorts", "X"] as const;
+export const CONTENT_TYPES = ["Short video", "Tutorial", "Story / vlog", "Product review", "Text post"] as const;

@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Menu, X } from "lucide-react";
+import { ArrowRight, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Logo } from "./logo";
 
@@ -13,30 +13,30 @@ const NAV = [
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/85">
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:h-16 sm:px-6">
+    <header className="sticky top-0 z-40 border-b bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <Logo />
         <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
           {NAV.map((n) => (
             <Link
               key={n.to}
               to={n.to}
-              className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              activeProps={{ className: "text-foreground" }}
+              className="rounded-lg px-3 py-2 text-sm font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              activeProps={{ className: "text-primary" }}
             >
               {n.label}
             </Link>
           ))}
           <Link
             to="/tools/creator-workflow"
-            className="ml-2 inline-flex h-9 items-center rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+            className="ml-3 inline-flex h-10 items-center gap-1.5 rounded-lg bg-orange px-4 text-sm font-bold text-orange-foreground shadow-soft transition-all hover:brightness-105 active:scale-95"
           >
-            Start creating
+            Start creating <ArrowRight className="h-4 w-4" aria-hidden />
           </Link>
         </nav>
         <button
           type="button"
-          className="inline-flex h-10 w-10 items-center justify-center rounded-md border md:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-lg border transition-colors hover:bg-muted md:hidden"
           aria-expanded={open}
           aria-controls="mobile-nav"
           aria-label={open ? "Close menu" : "Open menu"}
@@ -46,19 +46,20 @@ export function SiteHeader() {
         </button>
       </div>
       {open && (
-        <nav id="mobile-nav" aria-label="Mobile" className="border-t bg-background md:hidden">
-          <ul className="mx-auto flex max-w-6xl flex-col px-4 py-2">
+        <nav id="mobile-nav" aria-label="Mobile" className="border-t bg-background shadow-soft md:hidden">
+          <ul className="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-3">
             {NAV.map((n) => (
               <li key={n.to}>
-                <Link
-                  to={n.to}
-                  onClick={() => setOpen(false)}
-                  className="block rounded-md px-2 py-3 text-base font-medium text-foreground hover:bg-muted"
-                >
+                <Link to={n.to} onClick={() => setOpen(false)} className="block rounded-lg px-3 py-3 text-base font-semibold hover:bg-muted" activeProps={{ className: "text-primary" }}>
                   {n.label}
                 </Link>
               </li>
             ))}
+            <li className="pt-2">
+              <Link to="/tools/creator-workflow" onClick={() => setOpen(false)} className="flex h-12 items-center justify-center gap-1.5 rounded-lg bg-orange font-bold text-orange-foreground active:scale-[0.98]">
+                Start creating <ArrowRight className="h-4 w-4" aria-hidden />
+              </Link>
+            </li>
           </ul>
         </nav>
       )}

@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
-const platform = z.enum(["TikTok", "Instagram Reels", "YouTube Shorts"]);
+const platform = z.enum(["TikTok", "Instagram Reels", "YouTube Shorts", "X"]);
 const text = (max: number) => z.string().trim().min(2, "Please enter at least 2 characters.").max(max);
 
 export const listInput = z.discriminatedUnion("tool", [
@@ -45,7 +45,11 @@ export const generateList = createServerFn({ method: "POST" })
     return { ok: true as const, data: { items } };
   });
 
-export const workflowInput = z.object({ topic: text(300), platform });
+export const workflowInput = z.object({
+  topic: text(300),
+  platform,
+  contentType: z.enum(["Short video", "Tutorial", "Story / vlog", "Product review", "Text post"]).default("Short video"),
+});
 
 export const generateWorkflow = createServerFn({ method: "POST" })
   .validator((input: unknown) => workflowInput.parse(input))
@@ -60,7 +64,7 @@ export const generateWorkflow = createServerFn({ method: "POST" })
     const res = await generateStructured(
       schema,
       RULES,
-      `Create a complete ${data.platform} content package for a video about: "${data.topic}". hook: one opening line under 15 words. caption: 2–3 sentences with a soft call to action, no hashtags. hashtags: 10 relevant hashtags each starting with #. thumbnailText: 2–5 words.`,
+      `Create a complete ${data.platform} content package (format: ${data.contentType}) about: "${data.topic}". hook: one opening line under 15 words. caption: 2–3 sentences with a soft call to action, no hashtags. hashtags: 10 relevant hashtags each starting with #. thumbnailText: 2–5 words.`,
     );
     if (!res.ok) return res;
     return {
