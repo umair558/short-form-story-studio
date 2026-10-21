@@ -10,33 +10,245 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as FeaturesRouteImport } from './routes/features'
+import { Route as HowItWorksRouteImport } from './routes/how-it-works'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as ToolsIndexRouteImport } from './routes/tools.index'
+import { Route as ToolsBioGeneratorRouteImport } from './routes/tools.bio-generator'
+import { Route as ToolsCaptionGeneratorRouteImport } from './routes/tools.caption-generator'
+import { Route as ToolsContentIdeasRouteImport } from './routes/tools.content-ideas'
+import { Route as ToolsCreatorWorkflowRouteImport } from './routes/tools.creator-workflow'
+import { Route as ToolsHashtagAssistantRouteImport } from './routes/tools.hashtag-assistant'
+import { Route as ToolsHookGeneratorRouteImport } from './routes/tools.hook-generator'
+import { Route as ToolsImageCompressorRouteImport } from './routes/tools.image-compressor'
+import { Route as ToolsImageResizerRouteImport } from './routes/tools.image-resizer'
+import { Route as ToolsThumbnailTextRouteImport } from './routes/tools.thumbnail-text'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeaturesRoute = FeaturesRouteImport.update({
+  id: '/features',
+  path: '/features',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HowItWorksRoute = HowItWorksRouteImport.update({
+  id: '/how-it-works',
+  path: '/how-it-works',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsIndexRoute = ToolsIndexRouteImport.update({
+  id: '/tools/',
+  path: '/tools/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsBioGeneratorRoute = ToolsBioGeneratorRouteImport.update({
+  id: '/tools/bio-generator',
+  path: '/tools/bio-generator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsCaptionGeneratorRoute = ToolsCaptionGeneratorRouteImport.update({
+  id: '/tools/caption-generator',
+  path: '/tools/caption-generator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsContentIdeasRoute = ToolsContentIdeasRouteImport.update({
+  id: '/tools/content-ideas',
+  path: '/tools/content-ideas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsCreatorWorkflowRoute = ToolsCreatorWorkflowRouteImport.update({
+  id: '/tools/creator-workflow',
+  path: '/tools/creator-workflow',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsHashtagAssistantRoute = ToolsHashtagAssistantRouteImport.update({
+  id: '/tools/hashtag-assistant',
+  path: '/tools/hashtag-assistant',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsHookGeneratorRoute = ToolsHookGeneratorRouteImport.update({
+  id: '/tools/hook-generator',
+  path: '/tools/hook-generator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsImageCompressorRoute = ToolsImageCompressorRouteImport.update({
+  id: '/tools/image-compressor',
+  path: '/tools/image-compressor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsImageResizerRoute = ToolsImageResizerRouteImport.update({
+  id: '/tools/image-resizer',
+  path: '/tools/image-resizer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsThumbnailTextRoute = ToolsThumbnailTextRouteImport.update({
+  id: '/tools/thumbnail-text',
+  path: '/tools/thumbnail-text',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/features': typeof FeaturesRoute
+  '/how-it-works': typeof HowItWorksRoute
+  '/privacy': typeof PrivacyRoute
+  '/terms': typeof TermsRoute
+  '/tools/bio-generator': typeof ToolsBioGeneratorRoute
+  '/tools/caption-generator': typeof ToolsCaptionGeneratorRoute
+  '/tools/content-ideas': typeof ToolsContentIdeasRoute
+  '/tools/creator-workflow': typeof ToolsCreatorWorkflowRoute
+  '/tools/hashtag-assistant': typeof ToolsHashtagAssistantRoute
+  '/tools/hook-generator': typeof ToolsHookGeneratorRoute
+  '/tools/image-compressor': typeof ToolsImageCompressorRoute
+  '/tools/image-resizer': typeof ToolsImageResizerRoute
+  '/tools/thumbnail-text': typeof ToolsThumbnailTextRoute
+  '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/features': typeof FeaturesRoute
+  '/how-it-works': typeof HowItWorksRoute
+  '/privacy': typeof PrivacyRoute
+  '/terms': typeof TermsRoute
+  '/tools/bio-generator': typeof ToolsBioGeneratorRoute
+  '/tools/caption-generator': typeof ToolsCaptionGeneratorRoute
+  '/tools/content-ideas': typeof ToolsContentIdeasRoute
+  '/tools/creator-workflow': typeof ToolsCreatorWorkflowRoute
+  '/tools/hashtag-assistant': typeof ToolsHashtagAssistantRoute
+  '/tools/hook-generator': typeof ToolsHookGeneratorRoute
+  '/tools/image-compressor': typeof ToolsImageCompressorRoute
+  '/tools/image-resizer': typeof ToolsImageResizerRoute
+  '/tools/thumbnail-text': typeof ToolsThumbnailTextRoute
+  '/tools': typeof ToolsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/features': typeof FeaturesRoute
+  '/how-it-works': typeof HowItWorksRoute
+  '/privacy': typeof PrivacyRoute
+  '/terms': typeof TermsRoute
+  '/tools/bio-generator': typeof ToolsBioGeneratorRoute
+  '/tools/caption-generator': typeof ToolsCaptionGeneratorRoute
+  '/tools/content-ideas': typeof ToolsContentIdeasRoute
+  '/tools/creator-workflow': typeof ToolsCreatorWorkflowRoute
+  '/tools/hashtag-assistant': typeof ToolsHashtagAssistantRoute
+  '/tools/hook-generator': typeof ToolsHookGeneratorRoute
+  '/tools/image-compressor': typeof ToolsImageCompressorRoute
+  '/tools/image-resizer': typeof ToolsImageResizerRoute
+  '/tools/thumbnail-text': typeof ToolsThumbnailTextRoute
+  '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/features'
+    | '/how-it-works'
+    | '/privacy'
+    | '/terms'
+    | '/tools/bio-generator'
+    | '/tools/caption-generator'
+    | '/tools/content-ideas'
+    | '/tools/creator-workflow'
+    | '/tools/hashtag-assistant'
+    | '/tools/hook-generator'
+    | '/tools/image-compressor'
+    | '/tools/image-resizer'
+    | '/tools/thumbnail-text'
+    | '/tools/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/features'
+    | '/how-it-works'
+    | '/privacy'
+    | '/terms'
+    | '/tools/bio-generator'
+    | '/tools/caption-generator'
+    | '/tools/content-ideas'
+    | '/tools/creator-workflow'
+    | '/tools/hashtag-assistant'
+    | '/tools/hook-generator'
+    | '/tools/image-compressor'
+    | '/tools/image-resizer'
+    | '/tools/thumbnail-text'
+    | '/tools'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/features'
+    | '/how-it-works'
+    | '/privacy'
+    | '/terms'
+    | '/tools/bio-generator'
+    | '/tools/caption-generator'
+    | '/tools/content-ideas'
+    | '/tools/creator-workflow'
+    | '/tools/hashtag-assistant'
+    | '/tools/hook-generator'
+    | '/tools/image-compressor'
+    | '/tools/image-resizer'
+    | '/tools/thumbnail-text'
+    | '/tools/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
+  FeaturesRoute: typeof FeaturesRoute
+  HowItWorksRoute: typeof HowItWorksRoute
+  PrivacyRoute: typeof PrivacyRoute
+  TermsRoute: typeof TermsRoute
+  ToolsBioGeneratorRoute: typeof ToolsBioGeneratorRoute
+  ToolsCaptionGeneratorRoute: typeof ToolsCaptionGeneratorRoute
+  ToolsContentIdeasRoute: typeof ToolsContentIdeasRoute
+  ToolsCreatorWorkflowRoute: typeof ToolsCreatorWorkflowRoute
+  ToolsHashtagAssistantRoute: typeof ToolsHashtagAssistantRoute
+  ToolsHookGeneratorRoute: typeof ToolsHookGeneratorRoute
+  ToolsImageCompressorRoute: typeof ToolsImageCompressorRoute
+  ToolsImageResizerRoute: typeof ToolsImageResizerRoute
+  ToolsThumbnailTextRoute: typeof ToolsThumbnailTextRoute
+  ToolsIndexRoute: typeof ToolsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +260,139 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/features': {
+      id: '/features'
+      path: '/features'
+      fullPath: '/features'
+      preLoaderRoute: typeof FeaturesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/how-it-works': {
+      id: '/how-it-works'
+      path: '/how-it-works'
+      fullPath: '/how-it-works'
+      preLoaderRoute: typeof HowItWorksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/': {
+      id: '/tools/'
+      path: '/tools'
+      fullPath: '/tools/'
+      preLoaderRoute: typeof ToolsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/bio-generator': {
+      id: '/tools/bio-generator'
+      path: '/tools/bio-generator'
+      fullPath: '/tools/bio-generator'
+      preLoaderRoute: typeof ToolsBioGeneratorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/caption-generator': {
+      id: '/tools/caption-generator'
+      path: '/tools/caption-generator'
+      fullPath: '/tools/caption-generator'
+      preLoaderRoute: typeof ToolsCaptionGeneratorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/content-ideas': {
+      id: '/tools/content-ideas'
+      path: '/tools/content-ideas'
+      fullPath: '/tools/content-ideas'
+      preLoaderRoute: typeof ToolsContentIdeasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/creator-workflow': {
+      id: '/tools/creator-workflow'
+      path: '/tools/creator-workflow'
+      fullPath: '/tools/creator-workflow'
+      preLoaderRoute: typeof ToolsCreatorWorkflowRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/hashtag-assistant': {
+      id: '/tools/hashtag-assistant'
+      path: '/tools/hashtag-assistant'
+      fullPath: '/tools/hashtag-assistant'
+      preLoaderRoute: typeof ToolsHashtagAssistantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/hook-generator': {
+      id: '/tools/hook-generator'
+      path: '/tools/hook-generator'
+      fullPath: '/tools/hook-generator'
+      preLoaderRoute: typeof ToolsHookGeneratorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/image-compressor': {
+      id: '/tools/image-compressor'
+      path: '/tools/image-compressor'
+      fullPath: '/tools/image-compressor'
+      preLoaderRoute: typeof ToolsImageCompressorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/image-resizer': {
+      id: '/tools/image-resizer'
+      path: '/tools/image-resizer'
+      fullPath: '/tools/image-resizer'
+      preLoaderRoute: typeof ToolsImageResizerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/thumbnail-text': {
+      id: '/tools/thumbnail-text'
+      path: '/tools/thumbnail-text'
+      fullPath: '/tools/thumbnail-text'
+      preLoaderRoute: typeof ToolsThumbnailTextRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
+  FeaturesRoute: FeaturesRoute,
+  HowItWorksRoute: HowItWorksRoute,
+  PrivacyRoute: PrivacyRoute,
+  TermsRoute: TermsRoute,
+  ToolsBioGeneratorRoute: ToolsBioGeneratorRoute,
+  ToolsCaptionGeneratorRoute: ToolsCaptionGeneratorRoute,
+  ToolsContentIdeasRoute: ToolsContentIdeasRoute,
+  ToolsCreatorWorkflowRoute: ToolsCreatorWorkflowRoute,
+  ToolsHashtagAssistantRoute: ToolsHashtagAssistantRoute,
+  ToolsHookGeneratorRoute: ToolsHookGeneratorRoute,
+  ToolsImageCompressorRoute: ToolsImageCompressorRoute,
+  ToolsImageResizerRoute: ToolsImageResizerRoute,
+  ToolsThumbnailTextRoute: ToolsThumbnailTextRoute,
+  ToolsIndexRoute: ToolsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
