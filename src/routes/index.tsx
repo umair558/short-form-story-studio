@@ -70,12 +70,12 @@ function Index() {
 
       <section aria-labelledby="popular" className="mx-auto mt-16 max-w-6xl px-4 sm:px-6">
         <h2 id="popular" className="text-2xl font-bold sm:text-3xl">Popular with creators</h2>
-        <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+        <ul className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
           {popular.map((t) => {
             const Icon = t.icon;
             return (
-              <li key={t.slug}>
-                <Link to={t.path} className="card-surface card-interactive flex items-center gap-4 p-4">
+              <li key={t.slug} className="min-w-0">
+                <Link to={t.path} className="card-surface card-interactive flex min-w-0 items-center gap-4 p-4">
                   <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-primary-soft text-primary"><Icon className="h-5 w-5" aria-hidden /></span>
                   <span className="min-w-0 flex-1">
                     <span className="block font-semibold">{t.name}</span>
