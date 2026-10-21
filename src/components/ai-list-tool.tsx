@@ -36,6 +36,14 @@ export function useAiCall<T>() {
 
 export function FieldInput({ f, value, onChange }: { f: FieldDef; value: string; onChange: (v: string) => void }) {
   const id = `f-${f.name}`;
+  if (f.type === "select" && f.name === "platform") {
+    return (
+      <div className="md:col-span-full">
+        <p id={id} className="mb-1.5 block text-sm font-medium">{f.label}</p>
+        <PlatformPicker id={id} label={f.label} options={f.options!} value={value} onChange={onChange} />
+      </div>
+    );
+  }
   return (
     <div>
       <label htmlFor={id} className="mb-1.5 block text-sm font-medium">{f.label}</label>
