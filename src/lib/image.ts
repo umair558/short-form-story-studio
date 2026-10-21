@@ -67,10 +67,9 @@ export async function renderImage(
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = "high";
   // JPEG has no transparency: fill a background so transparent pixels don't become black.
-  if (opts.format === "image/jpeg" || opts.mode === "contain") {
+  if (opts.format === "image/jpeg" || opts.background) {
     ctx.fillStyle = opts.background ?? "#ffffff";
-    if (opts.format !== "image/jpeg" && !opts.background) ctx.clearRect(0, 0, width, height);
-    else ctx.fillRect(0, 0, width, height);
+    ctx.fillRect(0, 0, width, height);
   }
   const r = fitRect(img.naturalWidth, img.naturalHeight, width, height, opts.mode);
   ctx.drawImage(img, r.sx, r.sy, r.sw, r.sh, r.dx, r.dy, r.dw, r.dh);
