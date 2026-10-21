@@ -84,7 +84,7 @@ export function AiListTool({
   copyAllSeparator?: string;
 }) {
   const [values, setValues] = useState<Record<string, string>>(() =>
-    Object.fromEntries(fields.map((f) => [f.name, f.type === "select" ? f.options![0] : ""])),
+    Object.fromEntries(fields.map((f) => [f.name, f.type === "select" ? (f.options![0] ?? "") : ""])),
   );
   const call = useServerFn(generateList);
   const { loading, error, data, run } = useAiCall<{ items: string[] }>();
@@ -92,7 +92,7 @@ export function AiListTool({
 
   function submit(e?: FormEvent) {
     e?.preventDefault();
-    const empty = fields.find((f) => f.type !== "select" && values[f.name].trim().length < 2);
+    const empty = fields.find((f) => f.type !== "select" && (values[f.name] ?? "").trim().length < 2);
     if (empty) return setLocalError(`Please enter a ${empty.label.toLowerCase()} (at least 2 characters).`);
     setLocalError(null);
     run(() => call({ data: { tool, ...values } as ListInput }));
@@ -102,7 +102,7 @@ export function AiListTool({
     <div>
       <form onSubmit={submit} noValidate className="card-surface space-y-4 p-5 sm:p-6">
         {fields.map((f) => (
-          <FieldInput key={f.name} f={f} value={values[f.name]} onChange={(v) => setValues((s) => ({ ...s, [f.name]: v }))} />
+          <FieldInput key={f.name} f={f} value={values[f.name] ?? ""} onChange={(v) => setValues((s) => ({ ...s, [f.name]: v }))} />
         ))}
         <SubmitButton loading={loading} label={submitLabel} />
       </form>

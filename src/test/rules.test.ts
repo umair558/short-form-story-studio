@@ -29,7 +29,7 @@ describe("tool search", () => {
     expect(filterTools("", "Image").map((t) => t.slug)).toEqual(["image-resizer", "image-compressor"]);
   });
   it("finds hashtag tool by query", () => {
-    expect(filterTools("hashtag", "All")[0].slug).toBe("hashtag-assistant");
+    expect(filterTools("hashtag", "All")[0]?.slug).toBe("hashtag-assistant");
   });
 });
 

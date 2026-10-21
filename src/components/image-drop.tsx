@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import { ACCEPTED_TYPES } from "@/lib/image";
 import { cn } from "@/lib/utils";
 
-export function ImageDrop({ onFile, fileName }: { onFile: (f: File) => void; fileName?: string }) {
+export function ImageDrop({ onFile, fileName }: { onFile: (f: File) => void; fileName?: string | undefined }) {
   const input = useRef<HTMLInputElement>(null);
   const [over, setOver] = useState(false);
   return (

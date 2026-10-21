@@ -57,7 +57,7 @@ export async function renderImage(
   img: HTMLImageElement,
   width: number,
   height: number,
-  opts: { mode: "cover" | "contain"; format: OutFormat; quality?: number; background?: string },
+  opts: { mode: "cover" | "contain"; format: OutFormat; quality?: number | undefined; background?: string | undefined },
 ): Promise<Blob> {
   const canvas = document.createElement("canvas");
   canvas.width = width;
