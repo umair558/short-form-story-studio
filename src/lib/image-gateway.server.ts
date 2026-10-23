@@ -1,11 +1,21 @@
 export const POLLINATIONS_MODEL = "tongyi-mai/z-image-turbo";
+let previousSeed: number | undefined;
+
+/** Explicit supported seeds also change the URL, unlike the cached seed=-1 URL. */
+function freshSeed() {
+  const values = crypto.getRandomValues(new Uint32Array(1));
+  let seed = (values[0] ?? 0) & 2147483647;
+  if (seed === previousSeed) seed = (seed + 1) % 2147483648;
+  previousSeed = seed;
+  return seed;
+}
 
 /** One generation request only: no retries, enhancement calls or provider fallback. */
 export function generateImagePollinations(apiKey: string, prompt: string, width: number, height: number) {
   const url = new URL(`https://gen.pollinations.ai/image/${encodeURIComponent(prompt)}`);
-  url.search = new URLSearchParams({ model: POLLINATIONS_MODEL, width: String(width), height: String(height), seed: "-1" }).toString();
+  url.search = new URLSearchParams({ model: POLLINATIONS_MODEL, width: String(width), height: String(height), seed: String(freshSeed()) }).toString();
   return fetch(url, {
-    headers: { Authorization: `Bearer ${apiKey}` },
+    headers: { Authorization: `Bearer ${apiKey}`, "Cache-Control": "no-cache, no-store" },
     cache: "no-store",
     redirect: "error",
   });
