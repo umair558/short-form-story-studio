@@ -1,7 +1,5 @@
-# AI Text-to-Thumbnail Generator
-- [x] Add Gemini generation with secure GEMINI_API_KEY and image signature/browser decode checks.
-- [x] Add portrait/landscape, style, text, color, effects, preview, regenerate and HD download controls.
-- [x] Register the dedicated tool page and preserve existing tools.
-- [x] Pass 24 tests and verify desktop/mobile controls, honest quota errors, and no mobile overflow.
-- [x] Switch to built-in AI image generation (Google key had zero quota).
-- [x] Verify real generation, regenerate and PNG download in browser (desktop + mobile).
+# Bluesmins AI Thumbnail Integration
+- [ ] Verify official Bluesmins documentation and `google/diffusiongemma-26b-a4b-it` output capabilities.
+- [ ] If image generation is supported, collect the key through secure entry and integrate the documented API without provider fallback.
+- [ ] Verify real provider image output, regenerate and 1280x720 PNG download; otherwise report the compatibility blocker without paid tests.
+- [x] Preserve existing tools and prohibit Lovable AI thumbnail fallback.
