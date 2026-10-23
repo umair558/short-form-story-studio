@@ -15,7 +15,7 @@ function Page() {
       <article className="mx-auto mt-8 max-w-3xl space-y-4 px-4 leading-relaxed text-muted-foreground sm:px-6 [&_h2]:mt-8 [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-foreground [&_li]:ml-5 [&_li]:list-disc">
         <p>This policy explains what information CreatorKit Studio (“we”, “us”) processes when you use this website, and why. We've written it in plain language.</p>
         <h2>Accounts</h2>
-        <p>You can use every tool without creating an account. We don't ask for your name or email to use the tools.</p>
+        <p>Most tools do not need an account. AI thumbnail generation requires registration with your name, email and password. Authentication credentials are managed securely by Lovable Cloud; we store your profile name and daily thumbnail request status to enforce your allowance across devices. Generated images and prompts are not stored in the database.</p>
         <h2>Images</h2>
         <p>The Social Media Image Resizer and Image Compressor process images entirely inside your web browser. Your images are not uploaded to our servers or shared with third parties.</p>
         <h2>Text you submit to AI tools</h2>
@@ -24,7 +24,7 @@ function Page() {
         <h2>Technical data</h2>
         <p>Like most websites, our hosting provider automatically processes basic technical information such as IP address, browser type and pages requested, to deliver the site and protect against abuse.</p>
         <h2>Cookies and advertising</h2>
-        <p>We don't currently use advertising or tracking cookies. If we add advertising in the future (for example Google AdSense), we will update this policy before doing so, describe the cookies used, and request consent where the law requires it.</p>
+        <p>We save your light/dark preference and sign-in session in your browser. These are necessary preferences and authentication storage, not advertising tracking. We do not currently use advertising cookies. If we add advertising, we will update this policy and request consent where required.</p>
         <h2>Your choices</h2>
         <ul>
           <li>You can stop using the AI tools at any time; the image tools work without sending any data.</li>

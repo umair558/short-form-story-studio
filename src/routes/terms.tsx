@@ -17,6 +17,7 @@ function Page() {
         <h2>Using the tools</h2>
         <p>The tools are provided free of charge for personal and commercial content creation. Please don't misuse the service — for example by trying to overload it, automate bulk requests, or generate content that is illegal, hateful, harassing or that infringes others' rights.</p>
         <h2>AI-generated content</h2>
+        <p>AI thumbnails require an account and allow up to five successful generations per day, resetting at 00:00 UTC. Concurrent requests and rapid repeated attempts are limited. Failed responses do not use a slot unless an actual image is received from the provider. Provider charges can still apply when a network interruption prevents image delivery.</p>
         <p>AI suggestions are generated automatically and may be inaccurate, unoriginal or unsuitable. Review and edit everything before publishing. You are responsible for what you post and for following each platform's rules. We don't guarantee any result, such as views, followers or reach.</p>
         <h2>Your content</h2>
         <p>You keep all rights to the text and images you provide and to the results you create. Images you process stay on your device.</p>

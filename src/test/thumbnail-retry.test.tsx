@@ -2,6 +2,9 @@ import { fireEvent, render, screen, waitFor, cleanup } from "@testing-library/re
 import { afterEach, expect, it, vi } from "vitest";
 import { AiThumbnailGenerator } from "@/components/ai-thumbnail-generator";
 import { streamImage } from "@/lib/stream-image";
+vi.mock('@/components/auth-provider', () => ({ useAccount: () => ({ user: { id: 'test-user' }, ready: true }) }));
+vi.mock('@tanstack/react-query', () => ({ useQueryClient: () => ({ invalidateQueries: vi.fn() }), useQuery: () => ({ data: 5 }) }));
+vi.mock('@/integrations/supabase/client', () => ({ supabase: { auth: { getSession: async () => ({ data: { session: { access_token: 'test-session' } } }) } } }));
 
 vi.mock("@/lib/stream-image", () => ({
   streamImage: vi.fn().mockRejectedValue(new TypeError("Failed to fetch")),
