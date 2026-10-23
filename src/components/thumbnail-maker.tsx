@@ -73,8 +73,7 @@ export function ThumbnailMaker() {
   return (
     <div className="flex flex-col gap-4">
       <div className="thumbnail-toolbar order-first items-start border-b" aria-label="Thumbnail settings">
-      <div className="shrink-0 w-80 space-y-4 border-r pr-5">
-        <h2 className="text-base font-semibold">1. Background</h2>
+      <details className="shrink-0 w-80 border-r pr-5"><summary className="cursor-pointer py-3 font-semibold">Background & adjustments</summary><div className="max-h-72 space-y-4 overflow-y-auto pb-3">
         <ImageDrop onFile={pick} fileName={fileName} />
         {img && (
           <Button type="button" onClick={() => { setImg(null); setFileName(undefined); }} className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
@@ -96,10 +95,9 @@ export function ThumbnailMaker() {
           </div>
         )}
         <Range id="ov" label="Dark overlay" min={0} max={80} value={s.overlay} onChange={(v) => set("overlay", v)} unit="%" />
-      </div>
+      </div></details>
 
-      <div className="shrink-0 w-80 space-y-4 border-r pr-5">
-        <h2 className="text-base font-semibold">2. Text</h2>
+      <details className="shrink-0 w-80 pr-5"><summary className="cursor-pointer py-3 font-semibold">Headline & design</summary><div className="max-h-72 space-y-4 overflow-y-auto pb-3">
         <div>
           <label htmlFor="headline" className="mb-1.5 block text-sm font-medium">Headline</label>
           <textarea id="headline" className="field min-h-20" maxLength={80} value={s.headline} onChange={(e) => set("headline", e.target.value)} />
@@ -119,7 +117,7 @@ export function ThumbnailMaker() {
           <label htmlFor="badge" className="mb-1.5 block text-sm font-medium">Corner badge <span className="font-normal text-muted-foreground">(optional, e.g. NEW, PART 2)</span></label>
           <input id="badge" className="field" maxLength={16} value={s.badge} onChange={(e) => set("badge", e.target.value)} />
         </div>
-      </div>
+      </div></details>
       </div>
       <div className="border-b pb-4">
         <canvas ref={canvas} width={THUMB_W} height={THUMB_H} aria-label="Thumbnail preview" role="img" className="block h-auto w-full rounded-md border" />
