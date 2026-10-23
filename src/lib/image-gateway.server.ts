@@ -23,7 +23,7 @@ export function generateImagePollinations(apiKey: string, prompt: string, width:
 }
 
 export function pollinationsConnectionError(error: unknown): { status: number; code: string; message: string } {
-  const name = error instanceof Error ? error.name : "UnknownError";
+  const name = error instanceof Error || error instanceof DOMException ? error.name : "UnknownError";
   const cause = error instanceof Error ? (error as Error & { cause?: { code?: unknown } }).cause : undefined;
   const code = typeof cause?.code === "string" && /^[A-Z0-9_]{1,60}$/.test(cause.code) ? cause.code : name;
   const timeout = name === "TimeoutError" || name === "AbortError";
