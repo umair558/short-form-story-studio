@@ -31,9 +31,7 @@ export function SignInPrompt({ toolName }: { toolName: string }) {
           <Link to="/auth">Sign in</Link>
         </Button>
         <Button asChild variant="outline" className="h-11 px-6 font-semibold">
-          <Link to="/auth" search={{ mode: "register" }}>
-            Create free account
-          </Link>
+          <Link to="/auth">Create free account</Link>
         </Button>
       </div>
     </div>
