@@ -175,8 +175,8 @@ export function ThumbnailMaker() {
     const v = validateImageFile(f);
     if (v) return setError(v);
     try {
-      const img = await loadImage(f);
-      const url = img.src;
+      await loadImage(f); // validates the file decodes
+      const url = URL.createObjectURL(f); // loadImage revokes its own URL, so keep our own
       if (target === "bg") commit((p) => ({ ...p, image: url }));
       else commit((p) => ({ ...p, logo: { url, x: 0.88, y: 0.14, size: 0.16 } }));
     } catch (e) {
