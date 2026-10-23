@@ -12,11 +12,11 @@ afterEach(() => { cleanup(); vi.clearAllMocks(); });
 it("does not retry automatically and sends exactly one request for each manual Retry click", async () => {
   render(<AiThumbnailGenerator />);
   fireEvent.change(screen.getByLabelText("Your topic or thumbnail idea"), { target: { value: "A cinematic mountain landscape" } });
-  fireEvent.click(screen.getByRole("button", { name: "Generate Thumbnail", exact: true }));
-  const retry = await screen.findByRole("button", { name: "Retry", exact: true });
+  fireEvent.click(screen.getByRole("button", { name: "Generate Thumbnail" }));
+  const retry = await screen.findByRole("button", { name: "Retry" });
   expect(streamImage).toHaveBeenCalledTimes(1);
   fireEvent.click(retry);
   await waitFor(() => expect(streamImage).toHaveBeenCalledTimes(2));
-  await screen.findByRole("button", { name: "Retry", exact: true });
+  await screen.findByRole("button", { name: "Retry" });
   expect(streamImage).toHaveBeenCalledTimes(2);
 });
