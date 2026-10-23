@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 const platform = z.enum(["TikTok", "Instagram Reels", "YouTube Shorts", "X"]);
 const text = (max: number) => z.string().trim().min(2, "Please enter at least 2 characters.").max(max);
