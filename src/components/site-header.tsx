@@ -39,32 +39,47 @@ export function SiteHeader() {
           </Link>
         </nav>
         <div className="flex items-center gap-2">
-        <ThemeToggle />
-        <Button asChild variant="outline" className="h-10 px-3"><Link to={user ? '/account' : '/auth'}>{user ? 'Account' : 'Sign in'}</Link></Button>
-        <Button
-          type="button"
-          className="inline-flex h-11 w-11 items-center justify-center rounded-lg border transition-colors hover:bg-muted lg:hidden"
-          aria-expanded={open}
-          aria-controls="mobile-nav"
-          aria-label={open ? "Close menu" : "Open menu"}
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </Button>
+          <ThemeToggle />
+          <Button asChild variant="outline" className="h-10 px-3">
+            <Link to={user ? "/account" : "/auth"}>{user ? "Account" : "Sign in"}</Link>
+          </Button>
+          <Button
+            type="button"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-lg border transition-colors hover:bg-muted lg:hidden"
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            aria-label={open ? "Close menu" : "Open menu"}
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </Button>
         </div>
       </div>
       {open && (
-        <nav id="mobile-nav" aria-label="Mobile" className="border-t bg-background shadow-soft lg:hidden">
+        <nav
+          id="mobile-nav"
+          aria-label="Mobile"
+          className="border-t bg-background shadow-soft lg:hidden"
+        >
           <ul className="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-3">
             {NAV.map((n) => (
               <li key={n.to}>
-                <Link to={n.to} onClick={() => setOpen(false)} className="block rounded-lg px-3 py-3 text-base font-semibold hover:bg-muted" activeProps={{ className: "text-primary" }}>
+                <Link
+                  to={n.to}
+                  onClick={() => setOpen(false)}
+                  className="block rounded-lg px-3 py-3 text-base font-semibold hover:bg-muted"
+                  activeProps={{ className: "text-primary" }}
+                >
                   {n.label}
                 </Link>
               </li>
             ))}
             <li className="pt-2">
-              <Link to="/tools/creator-workflow" onClick={() => setOpen(false)} className="flex h-12 items-center justify-center gap-1.5 rounded-lg bg-orange font-bold text-orange-foreground active:scale-[0.98]">
+              <Link
+                to="/tools/creator-workflow"
+                onClick={() => setOpen(false)}
+                className="flex h-12 items-center justify-center gap-1.5 rounded-lg bg-orange font-bold text-orange-foreground active:scale-[0.98]"
+              >
                 Start creating <ArrowRight className="h-4 w-4" aria-hidden />
               </Link>
             </li>
