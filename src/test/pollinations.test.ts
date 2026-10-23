@@ -23,6 +23,7 @@ describe("Pollinations thumbnail integration", () => {
     expect(seed).toBeLessThanOrEqual(2147483647);
     expect(url.searchParams.has("key")).toBe(false);
     expect(options.headers.Authorization).toBe("Bearer test-credential");
+    expect(options.redirect).toBe("manual");
   });
   it("changes the supported seed and URL for regeneration even if random values repeat", async () => {
     vi.stubGlobal("crypto", { getRandomValues: (values: Uint32Array) => { values[0] = 123456; return values; } });
