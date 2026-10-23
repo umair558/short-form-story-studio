@@ -39,7 +39,7 @@ export function thumbnailPrompt(input: ThumbnailInput) {
 
 /** Plain-language message for a gateway failure status. */
 export function thumbnailErrorMessage(status: number, detail?: string): string {
-  if (status === 402) return "AI image generation is paused because the site's AI credits are used up. The site owner needs to add credits, then you can try again.";
+  if (status === 402) return "AI image generation is paused because the image service balance is used up. The site owner needs to top it up, then you can try again.";
   if (status === 429) return "Too many images are being generated right now. Please wait a minute and try again.";
   if (status === 401) return "AI image generation is not configured on this site yet.";
   if (status === 403) return detail ? `AI image generation is not allowed for this site: ${detail}` : "AI image generation is not allowed for this site right now.";
