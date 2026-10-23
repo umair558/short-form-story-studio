@@ -70,6 +70,7 @@ function SectionHead({ id, eyebrow, title, intro }: { id: string; eyebrow: strin
 
 function Index() {
   const popular = TOOLS.filter((t) => t.popular);
+  const [workflowOpen, setWorkflowOpen] = useState(false);
   return (
     <main>
       {/* Hero */}
@@ -143,7 +144,18 @@ function Index() {
               Open full tool <ArrowRight className="h-4 w-4" aria-hidden />
             </Link>
           </div>
-          <div className="mt-6"><WorkflowTool compact /></div>
+          {workflowOpen ? (
+            <div className="mt-6"><WorkflowTool compact /></div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setWorkflowOpen(true)}
+              aria-expanded={false}
+              className="mt-6 inline-flex h-12 items-center gap-2 rounded-xl bg-primary px-6 font-bold text-primary-foreground shadow-soft transition-all hover:brightness-105 active:scale-[0.98]"
+            >
+              <Workflow className="h-4 w-4" aria-hidden /> Open Creator Workflow
+            </button>
+          )}
         </div>
       </section>
 

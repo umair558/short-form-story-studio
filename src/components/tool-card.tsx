@@ -4,10 +4,12 @@ import type { ToolInfo } from "@/lib/tools";
 import { TONE } from "@/lib/tone";
 import { cn } from "@/lib/utils";
 import { BRANDS, BrandIcon } from "./brand-icons";
+import { TOOL_ICONS } from "@/lib/tool-icons";
 
 export function ToolCard({ tool }: { tool: ToolInfo }) {
   const Icon = tool.icon;
   const t = TONE[tool.tone];
+  const icon3d = TOOL_ICONS[tool.slug];
   return (
     <Link
       to={tool.path}
@@ -18,7 +20,20 @@ export function ToolCard({ tool }: { tool: ToolInfo }) {
     >
       <div className="flex items-start justify-between gap-3">
         <span className={cn("grid h-10 w-10 place-items-center rounded-xl sm:h-12 sm:w-12", t.icon)}>
-          <Icon className="h-5 w-5 sm:h-6 sm:w-6" aria-hidden />
+          {icon3d ? (
+            <img
+              src={icon3d}
+              alt=""
+              loading="lazy"
+              width={48}
+              height={48}
+              draggable={false}
+              onContextMenu={(e) => e.preventDefault()}
+              className="pointer-events-none h-9 w-9 select-none object-contain sm:h-11 sm:w-11"
+            />
+          ) : (
+            <Icon className="h-5 w-5 sm:h-6 sm:w-6" aria-hidden />
+          )}
         </span>
         {tool.social && (
           <BrandIcon
