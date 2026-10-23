@@ -14,8 +14,8 @@ export function generateImagePollinations(apiKey: string, prompt: string, width:
 /** Only the safe message is returned; raw responses can contain credential or account details. */
 export function pollinationsError(status: number, payload: unknown, apiKey: string): string {
   const data = payload && typeof payload === "object" ? payload as Record<string, unknown> : {};
-  const error = data.error && typeof data.error === "object" ? data.error as Record<string, unknown> : {};
-  const raw = typeof error.message === "string" ? error.message : typeof data.error === "string" ? data.error : typeof data.message === "string" ? data.message : "";
+  const error = data["error"] && typeof data["error"] === "object" ? data["error"] as Record<string, unknown> : {};
+  const raw = typeof error["message"] === "string" ? error["message"] : typeof data["error"] === "string" ? data["error"] : typeof data["message"] === "string" ? data["message"] : "";
   const safe = raw.split(apiKey).join("[redacted]").replace(/(?:sk_|pk_)[a-zA-Z0-9_-]+/g, "[redacted]").slice(0, 700);
   return `Pollinations (${status}): ${safe || ({ 401: "Invalid or missing API key.", 402: "Insufficient Pollen balance or key budget.", 403: "Access denied. Check the key's model permissions.", 429: "Rate limit reached. Wait before starting a new request." } as Record<number, string>)[status] || "Image request failed; no image was generated."}`;
 }

@@ -8,7 +8,9 @@ describe("Pollinations thumbnail integration", () => {
     vi.stubGlobal("fetch", fetchMock);
     await generateImagePollinations("test-credential", "A cinematic mountain", 1280, 720);
     expect(fetchMock).toHaveBeenCalledTimes(1);
-    const [url, options] = fetchMock.mock.calls[0];
+    const call = fetchMock.mock.calls[0];
+    if (!call) throw new Error("No generation request was made");
+    const [url, options] = call;
     expect(url.origin).toBe("https://gen.pollinations.ai");
     expect(decodeURIComponent(url.pathname)).toBe("/image/A cinematic mountain");
     expect(url.searchParams.get("model")).toBe("tongyi-mai/z-image-turbo");
