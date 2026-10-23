@@ -14,13 +14,82 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          id: string
+          name?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      thumbnail_days: {
+        Row: {
+          day: string
+          last_attempt: string | null
+          successful: number
+          user_id: string
+        }
+        Insert: {
+          day: string
+          last_attempt?: string | null
+          successful?: number
+          user_id: string
+        }
+        Update: {
+          day?: string
+          last_attempt?: string | null
+          successful?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      thumbnail_requests: {
+        Row: {
+          created_at: string
+          day: string
+          finished_at: string | null
+          id: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          day: string
+          finished_at?: string | null
+          id?: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          day?: string
+          finished_at?: string | null
+          id?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      finish_thumbnail: {
+        Args: { p_request: string; p_success: boolean; p_user: string }
+        Returns: number
+      }
+      reserve_thumbnail: { Args: { p_user: string }; Returns: string }
     }
     Enums: {
       [_ in never]: never
