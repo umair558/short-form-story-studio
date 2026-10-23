@@ -12,13 +12,13 @@ export function ToolCard({ tool }: { tool: ToolInfo }) {
     <Link
       to={tool.path}
       className={cn(
-        "card-surface card-interactive group flex h-full min-h-44 flex-col p-4 sm:min-h-56 sm:p-5 active:scale-[0.99]",
+        "card-surface card-interactive group flex h-full min-h-28 flex-col p-3 sm:min-h-56 sm:p-5 active:scale-[0.99]",
         t.hover,
       )}
     >
       <div className="flex items-start justify-between gap-3">
-        <span className={cn("grid h-12 w-12 place-items-center rounded-xl", t.icon)}>
-          <Icon className="h-6 w-6" aria-hidden />
+        <span className={cn("grid h-10 w-10 place-items-center rounded-xl sm:h-12 sm:w-12", t.icon)}>
+          <Icon className="h-5 w-5 sm:h-6 sm:w-6" aria-hidden />
         </span>
         {tool.social && (
           <BrandIcon
@@ -39,11 +39,11 @@ export function ToolCard({ tool }: { tool: ToolInfo }) {
           {tool.category}
         </span>
       </div>
-      <h3 className="mt-4 text-base font-bold">{tool.name}</h3>
+      <h3 className="mt-2.5 text-[13px] font-bold leading-tight sm:mt-4 sm:text-base">{tool.name}</h3>
       <p className="mt-1.5 hidden flex-1 sm:block text-sm leading-relaxed text-muted-foreground">
         {tool.short}
       </p>
-      <div className="mt-auto flex items-center pt-4 sm:mt-4 justify-between gap-2">
+      <div className="mt-auto hidden items-center pt-4 sm:mt-4 sm:flex justify-between gap-2">
         <span className={cn("inline-flex items-center gap-1 text-sm font-semibold", t.text)}>
           Open tool{" "}
           <ArrowRight
