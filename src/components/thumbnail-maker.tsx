@@ -86,7 +86,7 @@ export function ThumbnailMaker() {
   const [panel, setPanel] = useState<Panel>(null);
   const [bgImg, setBgImg] = useState<HTMLImageElement | null>(null);
   const [logoImg, setLogoImg] = useState<HTMLImageElement | null>(null);
-  const [activeText, setActiveText] = useState<string>(DEFAULT_THUMB.texts[0].id);
+  const [activeText, setActiveText] = useState<string>(DEFAULT_THUMB.texts[0]!.id);
   const [error, setError] = useState<string | null>(null);
 
   // AI panel state
@@ -256,7 +256,7 @@ export function ThumbnailMaker() {
           <Redo2 className="h-4 w-4" />
         </Button>
         <Button type="button" variant="ghost" size="sm"
-          onClick={() => { commit(DEFAULT_THUMB); setActiveText(DEFAULT_THUMB.texts[0].id); }}
+          onClick={() => { commit(DEFAULT_THUMB); setActiveText(DEFAULT_THUMB.texts[0]!.id); }}
           className="text-zinc-300 hover:bg-zinc-800 hover:text-white">
           <RotateCcw className="h-4 w-4" /> Reset
         </Button>
