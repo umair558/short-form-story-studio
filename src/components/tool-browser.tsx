@@ -2,6 +2,8 @@ import { Search, SearchX, X } from "lucide-react";
 import { useState } from "react";
 import { CATEGORIES, filterTools, type ToolFilter } from "@/lib/tools";
 import { ToolCard } from "./tool-card";
+import { ComingSoon } from "./coming-soon";
+import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 
 export function ToolBrowser({
@@ -31,14 +33,14 @@ export function ToolBrowser({
           className="field h-14 rounded-xl pl-12 pr-12 text-base shadow-soft"
         />
         {q && (
-          <button type="button" aria-label="Clear search" onClick={() => setQ("")} className="absolute right-3 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-md text-muted-foreground hover:bg-muted">
+          <Button type="button" aria-label="Clear search" onClick={() => setQ("")} className="absolute right-3 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-md text-muted-foreground hover:bg-muted">
             <X className="h-4 w-4" />
-          </button>
+          </Button>
         )}
       </form>
       <div className="mt-4 flex flex-wrap gap-2" role="group" aria-label="Filter by category">
         {CATEGORIES.map((c) => (
-          <button
+          <Button
             key={c}
             type="button"
             aria-pressed={cat === c}
@@ -49,12 +51,13 @@ export function ToolBrowser({
             )}
           >
             {c}
-          </button>
+          </Button>
         ))}
       </div>
+      <p className="mt-4 text-xs text-muted-foreground sm:hidden">More tools <span aria-hidden>→</span></p>
       <p className="sr-only" aria-live="polite">{results.length} tools found</p>
       {results.length ? (
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="tool-row mt-6 sm:grid-cols-2 lg:grid-cols-3">
           {results.map((t) => <ToolCard key={t.slug} tool={t} />)}
         </div>
       ) : (
@@ -62,11 +65,12 @@ export function ToolBrowser({
           <span className="grid h-12 w-12 place-items-center rounded-xl bg-muted text-muted-foreground"><SearchX className="h-6 w-6" aria-hidden /></span>
           <p className="mt-4 font-semibold">No tools match “{q}”{cat !== "All" ? ` in ${cat}` : ""}.</p>
           <p className="mt-1 text-sm text-muted-foreground">Try a simpler word like “caption”, “resize” or “hashtag”.</p>
-          <button type="button" className="mt-4 h-10 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground hover:bg-primary/90" onClick={() => { setQ(""); setCat("All"); }}>
+          <Button type="button" className="mt-4 h-10 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground hover:bg-primary/90" onClick={() => { setQ(""); setCat("All"); }}>
             Show all tools
-          </button>
+          </Button>
         </div>
       )}
+      {!q && cat === "All" && <ComingSoon />}
     </div>
   );
 }

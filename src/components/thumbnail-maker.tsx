@@ -4,6 +4,7 @@ import { canvasToBlob, downloadBlob, formatBytes, loadImage, validateImageFile, 
 import { DEFAULT_THUMB, drawThumbnail, THUMB_H, THUMB_W, type ThumbState } from "@/lib/thumbnail";
 import { ImageDrop } from "./image-drop";
 import { ErrorNote } from "./ai-list-tool";
+import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 
 function Range({ id, label, min, max, step = 1, value, onChange, unit = "" }: { id: string; label: string; min: number; max: number; step?: number; value: number; onChange: (v: number) => void; unit?: string }) {
@@ -21,7 +22,7 @@ function Seg<T extends string>({ label, options, value, onChange }: { label: str
       <legend className="mb-1.5 text-sm font-medium">{label}</legend>
       <div className="grid grid-cols-3 gap-1.5">
         {options.map((o) => (
-          <button key={o} type="button" aria-pressed={value === o} onClick={() => onChange(o)} className={cn("h-9 rounded-md border text-sm capitalize", value === o ? "border-primary bg-primary-soft font-semibold text-primary" : "hover:bg-muted")}>{o}</button>
+          <Button key={o} type="button" aria-pressed={value === o} onClick={() => onChange(o)} className={cn("h-9 rounded-md border text-sm capitalize", value === o ? "border-primary bg-primary-soft font-semibold text-primary" : "hover:bg-muted")}>{o}</Button>
         ))}
       </div>
     </fieldset>
@@ -70,33 +71,15 @@ export function ThumbnailMaker() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="card-surface p-3 sm:p-4">
-        <canvas ref={canvas} width={THUMB_W} height={THUMB_H} aria-label="Thumbnail preview" role="img" className="block h-auto w-full rounded-md border" />
-        <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center">
-          <select aria-label="Export format" className="field sm:w-36" value={format} onChange={(e) => setFormat(e.target.value as OutFormat)}>
-            <option value="image/jpeg">JPG</option>
-            <option value="image/png">PNG</option>
-          </select>
-          <button type="button" onClick={exportImage} className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-orange px-6 font-semibold text-orange-foreground hover:bg-orange/90">
-            <Download className="h-4 w-4" aria-hidden /> Download 1280×720
-          </button>
-          <button type="button" onClick={() => setS(DEFAULT_THUMB)} className="inline-flex h-11 items-center justify-center gap-2 rounded-md border px-4 text-sm font-medium hover:bg-muted">
-            <RotateCcw className="h-4 w-4" aria-hidden /> Reset design
-          </button>
-        </div>
-        {lastSize !== null && <p className="mt-2 text-sm text-muted-foreground">Last export: {formatBytes(lastSize)}{lastSize > 2 * 1024 * 1024 ? " — over YouTube's 2 MB limit, try JPG." : ""}</p>}
-      </div>
-
-      {error && <ErrorNote message={error} />}
-
-      <div className="card-surface space-y-4 p-5 sm:p-6">
+    <div className="flex flex-col gap-4">
+      <div className="thumbnail-toolbar order-first items-start border-b" aria-label="Thumbnail settings">
+      <div className="shrink-0 w-80 space-y-4 border-r pr-5">
         <h2 className="text-base font-semibold">1. Background</h2>
         <ImageDrop onFile={pick} fileName={fileName} />
         {img && (
-          <button type="button" onClick={() => { setImg(null); setFileName(undefined); }} className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
+          <Button type="button" onClick={() => { setImg(null); setFileName(undefined); }} className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
             <Trash2 className="h-4 w-4" aria-hidden /> Remove image
-          </button>
+          </Button>
         )}
         <div className="flex items-center gap-3">
           <label htmlFor="bg" className="text-sm font-medium">Background colour</label>
@@ -115,7 +98,7 @@ export function ThumbnailMaker() {
         <Range id="ov" label="Dark overlay" min={0} max={80} value={s.overlay} onChange={(v) => set("overlay", v)} unit="%" />
       </div>
 
-      <div className="card-surface space-y-4 p-5 sm:p-6">
+      <div className="shrink-0 w-80 space-y-4 border-r pr-5">
         <h2 className="text-base font-semibold">2. Text</h2>
         <div>
           <label htmlFor="headline" className="mb-1.5 block text-sm font-medium">Headline</label>
@@ -137,6 +120,26 @@ export function ThumbnailMaker() {
           <input id="badge" className="field" maxLength={16} value={s.badge} onChange={(e) => set("badge", e.target.value)} />
         </div>
       </div>
+      </div>
+      <div className="border-b pb-4">
+        <canvas ref={canvas} width={THUMB_W} height={THUMB_H} aria-label="Thumbnail preview" role="img" className="block h-auto w-full rounded-md border" />
+        <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center">
+          <select aria-label="Export format" className="field sm:w-36" value={format} onChange={(e) => setFormat(e.target.value as OutFormat)}>
+            <option value="image/jpeg">JPG</option>
+            <option value="image/png">PNG</option>
+          </select>
+          <Button type="button" onClick={exportImage} className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-orange px-6 font-semibold text-orange-foreground hover:bg-orange/90">
+            <Download className="h-4 w-4" aria-hidden /> Download 1280×720
+          </Button>
+          <Button type="button" onClick={() => setS(DEFAULT_THUMB)} className="inline-flex h-11 items-center justify-center gap-2 rounded-md border px-4 text-sm font-medium hover:bg-muted">
+            <RotateCcw className="h-4 w-4" aria-hidden /> Reset design
+          </Button>
+        </div>
+        {lastSize !== null && <p className="mt-2 text-sm text-muted-foreground">Last export: {formatBytes(lastSize)}{lastSize > 2 * 1024 * 1024 ? " — over YouTube's 2 MB limit, try JPG." : ""}</p>}
+      </div>
+
+      {error && <ErrorNote message={error} />}
+
     </div>
   );
 }

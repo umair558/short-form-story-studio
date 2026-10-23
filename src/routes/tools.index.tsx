@@ -17,7 +17,7 @@ function ToolsPage() {
   const { q, cat } = Route.useSearch();
   return (
     <main>
-      <PageHeader eyebrow="Tools" title="All creator tools" intro="Search by name or task, or filter by category. Every tool opens instantly — no account required." />
+      <PageHeader eyebrow="Tools" title="All creator tools" intro="Search by name or task, or filter by category. Most tools open instantly. Sign in for five daily AI thumbnails." />
       <section className="mx-auto mt-8 max-w-6xl px-4 sm:px-6">
         <ToolBrowser key={`${q ?? ""}|${cat ?? ""}`} initialQuery={q ?? ""} initialCategory={cat ?? "All"} />
       </section>
