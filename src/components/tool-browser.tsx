@@ -33,7 +33,7 @@ export function ToolBrowser({
           className="field h-14 rounded-xl pl-12 pr-12 text-base shadow-soft"
         />
         {q && (
-          <Button type="button" aria-label="Clear search" onClick={() => setQ("")} className="absolute right-3 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-md text-muted-foreground hover:bg-muted">
+          <Button variant="ghost" type="button" aria-label="Clear search" onClick={() => setQ("")} className="absolute right-3 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-md text-muted-foreground hover:bg-muted">
             <X className="h-4 w-4" />
           </Button>
         )}
@@ -41,6 +41,7 @@ export function ToolBrowser({
       <div className="mt-4 flex flex-wrap gap-2" role="group" aria-label="Filter by category">
         {CATEGORIES.map((c) => (
           <Button
+            variant="outline"
             key={c}
             type="button"
             aria-pressed={cat === c}
