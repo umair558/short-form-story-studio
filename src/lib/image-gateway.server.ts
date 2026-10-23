@@ -16,9 +16,20 @@ export function generateImagePollinations(apiKey: string, prompt: string, width:
   url.search = new URLSearchParams({ model: POLLINATIONS_MODEL, width: String(width), height: String(height), seed: String(freshSeed()) }).toString();
   return fetch(url, {
     headers: { Authorization: `Bearer ${apiKey}`, "Cache-Control": "no-cache, no-store" },
-    cache: "no-store",
+    // Use HTTP headers and unique seeds: RequestInit.cache depends on Worker compatibility flags.
+    signal: AbortSignal.timeout(180_000),
     redirect: "error",
   });
+}
+
+export function pollinationsConnectionError(error: unknown): { status: number; code: string; message: string } {
+  const name = error instanceof Error || error instanceof DOMException ? error.name : "UnknownError";
+  const cause = error instanceof Error ? (error as Error & { cause?: { code?: unknown } }).cause : undefined;
+  const code = typeof cause?.code === "string" && /^[A-Z0-9_]{1,60}$/.test(cause.code) ? cause.code : name;
+  const timeout = name === "TimeoutError" || name === "AbortError";
+  return { status: timeout ? 504 : 502, code, message: timeout
+    ? "Pollinations timed out after 3 minutes. No image was received. A provider charge may still apply; check your usage before choosing Retry. No automatic retry or fallback was used."
+    : "The connection to Pollinations failed before an image was received. Check your connection and try Retry manually. A provider charge may still apply. No automatic retry or fallback was used." };
 }
 
 /** Only the safe message is returned; raw responses can contain credential or account details. */

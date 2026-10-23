@@ -56,6 +56,7 @@ export function AiThumbnailGenerator() {
       const message = e instanceof Error ? e.message : "";
       if (e instanceof ImageStreamError && e.status) setError(message || thumbnailErrorMessage(e.status));
       else if (isPolicyRefusal(message)) setError("The image service declined this prompt under its content rules. Try describing original characters instead of named brands, games or real people.");
+      else if (e instanceof TypeError) setError("The connection was interrupted before the thumbnail finished. Check your connection, then choose Retry manually. A provider charge may still apply; no automatic retry was made.");
       else setError(message || "Image generation failed. No thumbnail was generated.");
     } finally {
       setPreview(null); setLoading(false); busy.current = false;
@@ -75,7 +76,7 @@ export function AiThumbnailGenerator() {
       </fieldset>
       <Button type="submit" disabled={loading} className="h-12 w-full text-base">{loading ? <LoaderCircle className="animate-spin motion-reduce:animate-none" aria-hidden /> : <Sparkles aria-hidden />}{loading ? "Generating thumbnail…" : "Generate Thumbnail"}</Button>
     </form>
-    {error && <div role="alert" className="break-words rounded-md border border-destructive/30 bg-destructive/5 p-4 text-sm text-destructive">{error}</div>}
+    {error && <div className="space-y-3 rounded-md border border-destructive/30 bg-destructive/5 p-4"><p role="alert" className="break-words text-sm text-destructive">{error}</p><Button type="button" variant="outline" disabled={loading} onClick={() => void create()} className="min-h-11"><RotateCcw aria-hidden />Retry</Button></div>}
     <section aria-label="Generated thumbnail" aria-busy={loading} className="border-t pt-6">
       <div className="mb-3 flex items-center justify-between gap-3"><h2 className="font-semibold">Preview</h2>{result && <span className="text-sm text-muted-foreground">{result.width} × {result.height} PNG</span>}</div>
       {result ? <img src={result.url} alt="Your AI-generated thumbnail" className={cn("block rounded-md border object-contain", result.width > result.height ? "w-full" : "mx-auto w-full max-w-72")} />
