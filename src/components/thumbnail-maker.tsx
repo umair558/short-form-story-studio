@@ -240,7 +240,7 @@ export function ThumbnailMaker() {
     }
   }
 
-  const text = s.texts.find((t) => t.id === activeText) ?? s.texts[0];
+  const text = s.texts.find((t) => t.id === activeText) ?? s.texts[0] ?? null;
 
   return (
     <div className="overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950 text-zinc-100 shadow-xl">
