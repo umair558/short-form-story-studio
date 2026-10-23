@@ -11,6 +11,6 @@ describe("AI thumbnail rules", () => {
   });
   it("asks for the headline text exactly", () => expect(thumbnailPrompt(input)).toContain('"FINAL ZONE"'));
   it("forbids text when no headline is given", () => expect(thumbnailPrompt({ ...input, text: "" })).toContain("Do not add any text"));
-  it("explains exhausted credits", () => expect(thumbnailErrorMessage(402)).toMatch(/credits/));
+  it("explains exhausted balance", () => expect(thumbnailErrorMessage(402)).toMatch(/balance is used up/));
   it("explains rate limits", () => expect(thumbnailErrorMessage(429)).toMatch(/wait/));
 });
