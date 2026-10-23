@@ -98,6 +98,7 @@ export function AiListTool({
   const call = useServerFn(generateList);
   const { loading, error, data, run } = useAiCall<{ items: string[] }>();
   const [localError, setLocalError] = useState<string | null>(null);
+  const { user } = useAccount();
 
   function submit(e?: FormEvent) {
     e?.preventDefault();
@@ -106,6 +107,8 @@ export function AiListTool({
     setLocalError(null);
     run(() => call({ data: { tool, ...values } as ListInput }));
   }
+
+  if (!user) return <SignInPrompt toolName={resultTitle} />;
 
   return (
     <div>
