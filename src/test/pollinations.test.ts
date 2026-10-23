@@ -17,9 +17,28 @@ describe("Pollinations thumbnail integration", () => {
     expect(POLLINATIONS_MODEL).toBe("tongyi-mai/z-image-turbo");
     expect(url.searchParams.get("width")).toBe("1280");
     expect(url.searchParams.get("height")).toBe("720");
-    expect(url.searchParams.get("seed")).toBe("-1");
+    const seed = Number(url.searchParams.get("seed"));
+    expect(Number.isInteger(seed)).toBe(true);
+    expect(seed).toBeGreaterThanOrEqual(0);
+    expect(seed).toBeLessThanOrEqual(2147483647);
     expect(url.searchParams.has("key")).toBe(false);
     expect(options.headers.Authorization).toBe("Bearer test-credential");
+  });
+  it("changes the supported seed and URL for regeneration even if random values repeat", async () => {
+    vi.stubGlobal("crypto", { getRandomValues: (values: Uint32Array) => { values[0] = 123456; return values; } });
+    const fetchMock = vi.fn().mockResolvedValue(new Response("image"));
+    vi.stubGlobal("fetch", fetchMock);
+    await generateImagePollinations("test-credential", "Same topic", 1280, 720);
+    await generateImagePollinations("test-credential", "Same topic", 1280, 720);
+    const first = fetchMock.mock.calls[0];
+    const second = fetchMock.mock.calls[1];
+    if (!first || !second) throw new Error("Missing generation calls");
+    expect(first[0].searchParams.get("seed")).toBe("123456");
+    expect(second[0].searchParams.get("seed")).toBe("123457");
+    expect(second[0].href).not.toBe(first[0].href);
+    expect(second[1].cache).toBe("no-store");
+    expect(second[1].headers["Cache-Control"]).toBe("no-cache, no-store");
+    expect(fetchMock).toHaveBeenCalledTimes(2);
   });
   it("never retries or calls a fallback after provider failure", async () => {
     const fetchMock = vi.fn().mockRejectedValue(new Error("network failure"));
