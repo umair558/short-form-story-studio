@@ -1,13 +1,16 @@
 import { describe, expect, it } from "vitest";
-import { thumbnailInput, thumbnailRequest, readThumbnailResponse } from "@/lib/ai-thumbnail";
+import { thumbnailInput, thumbnailPrompt, thumbnailSize, thumbnailErrorMessage } from "@/lib/ai-thumbnail";
 
-const input = { prompt: "Epic PUBG gaming thumbnail with fire effects and a character holding M416", aspectRatio: "16:9" as const, style: "Gaming" as const, text: "FINAL ZONE", color: "#2563eb", effects: ["Fire" as const] };
-describe("Gemini thumbnail rules", () => {
-  it("supports YouTube 16:9", () => expect(thumbnailRequest(thumbnailInput.parse(input)).response_format.aspect_ratio).toBe("16:9"));
-  it("supports Shorts 9:16", () => expect(thumbnailRequest(thumbnailInput.parse({ ...input, aspectRatio: "9:16" })).response_format.aspect_ratio).toBe("9:16"));
-  it("supports all five requested styles", () => { for (const style of ["Gaming", "Cinematic", "Horror", "Viral", "Professional"]) expect(thumbnailInput.parse({ ...input, style }).style).toBe(style); });
-  it("requests genuine 2K generation", () => expect(thumbnailRequest(input).response_format.image_size).toBe("2K"));
-  it("never treats a text-only reply as an image", () => expect(readThumbnailResponse({ outputs: [{ type: "text", text: "Here is your thumbnail" }] }).ok).toBe(false));
-  it("rejects invalid image bytes", () => expect(readThumbnailResponse({ output_image: { data: btoa("not an image") } }).ok).toBe(false));
-  it("accepts JPEG signature data for browser decoding", () => expect(readThumbnailResponse({ output_image: { data: btoa("\xff\xd8\xffexample") } }).ok).toBe(true));
+const input = { prompt: "Soldier holding a rifle in a burning battle zone", aspectRatio: "16:9" as const, style: "Gaming" as const, text: "FINAL ZONE", color: "#2563eb", effects: ["Fire" as const] };
+describe("AI thumbnail rules", () => {
+  it("defaults to a 1280x720 YouTube thumbnail", () => expect(thumbnailSize("16:9")).toEqual({ width: 1280, height: 720 }));
+  it("Shorts covers are 720x1280", () => expect(thumbnailSize("9:16")).toEqual({ width: 720, height: 1280 }));
+  it("offers exactly the six requested styles", () => {
+    for (const style of ["Gaming", "MrBeast-style", "Cinematic", "Tech", "Vlog", "Documentary"]) expect(thumbnailInput.parse({ ...input, style }).style).toBe(style);
+    expect(thumbnailInput.safeParse({ ...input, style: "Horror" }).success).toBe(false);
+  });
+  it("asks for the headline text exactly", () => expect(thumbnailPrompt(input)).toContain('"FINAL ZONE"'));
+  it("forbids text when no headline is given", () => expect(thumbnailPrompt({ ...input, text: "" })).toContain("Do not add any text"));
+  it("explains exhausted credits", () => expect(thumbnailErrorMessage(402)).toMatch(/credits/));
+  it("explains rate limits", () => expect(thumbnailErrorMessage(429)).toMatch(/wait/));
 });

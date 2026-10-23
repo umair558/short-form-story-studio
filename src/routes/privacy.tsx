@@ -19,7 +19,7 @@ function Page() {
         <h2>Images</h2>
         <p>The Social Media Image Resizer and Image Compressor process images entirely inside your web browser. Your images are not uploaded to our servers or shared with third parties.</p>
         <h2>Text you submit to AI tools</h2>
-        <p>The AI Text-to-Thumbnail Generator sends your text, headline and style options to Google Gemini through our server. Requests disable Google’s interaction storage. Google’s API data terms still apply. We do not save generated thumbnails; downloads remain on your device. No existing photo-editing tool uploads your images.</p>
+        <p>The AI Thumbnail Generator sends your text, headline and style options through our server to a third-party AI image model to create the image. We do not save generated thumbnails; downloads remain on your device. No existing photo-editing tool uploads your images.</p>
         <p>When you use an AI tool (for example the Caption Generator), the text and options you enter are sent from your browser to our server and then to a third-party AI model provider to generate suggestions. We do not store your inputs or results in a database. Our hosting and AI providers may keep short-lived technical logs (such as request time and errors) to operate and secure their services. Please don't enter sensitive personal information into AI tools.</p>
         <h2>Technical data</h2>
         <p>Like most websites, our hosting provider automatically processes basic technical information such as IP address, browser type and pages requested, to deliver the site and protect against abuse.</p>

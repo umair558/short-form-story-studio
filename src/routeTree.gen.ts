@@ -16,6 +16,7 @@ import { Route as FeaturesRouteImport } from './routes/features'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as ApiGenerateThumbnailRouteImport } from './routes/api/generate-thumbnail'
 import { Route as ToolsIndexRouteImport } from './routes/tools.index'
 import { Route as ToolsAiThumbnailGeneratorRouteImport } from './routes/tools.ai-thumbnail-generator'
 import { Route as ToolsBioGeneratorRouteImport } from './routes/tools.bio-generator'
@@ -64,6 +65,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiGenerateThumbnailRoute = ApiGenerateThumbnailRouteImport.update({
+  id: '/api/generate-thumbnail',
+  path: '/api/generate-thumbnail',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ToolsIndexRoute = ToolsIndexRouteImport.update({
@@ -148,6 +154,7 @@ export interface FileRoutesByFullPath {
   '/how-it-works': typeof HowItWorksRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
+  '/api/generate-thumbnail': typeof ApiGenerateThumbnailRoute
   '/tools/ai-thumbnail-generator': typeof ToolsAiThumbnailGeneratorRoute
   '/tools/bio-generator': typeof ToolsBioGeneratorRoute
   '/tools/caption-generator': typeof ToolsCaptionGeneratorRoute
@@ -171,6 +178,7 @@ export interface FileRoutesByTo {
   '/how-it-works': typeof HowItWorksRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
+  '/api/generate-thumbnail': typeof ApiGenerateThumbnailRoute
   '/tools/ai-thumbnail-generator': typeof ToolsAiThumbnailGeneratorRoute
   '/tools/bio-generator': typeof ToolsBioGeneratorRoute
   '/tools/caption-generator': typeof ToolsCaptionGeneratorRoute
@@ -195,6 +203,7 @@ export interface FileRoutesById {
   '/how-it-works': typeof HowItWorksRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
+  '/api/generate-thumbnail': typeof ApiGenerateThumbnailRoute
   '/tools/ai-thumbnail-generator': typeof ToolsAiThumbnailGeneratorRoute
   '/tools/bio-generator': typeof ToolsBioGeneratorRoute
   '/tools/caption-generator': typeof ToolsCaptionGeneratorRoute
@@ -220,6 +229,7 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/privacy'
     | '/terms'
+    | '/api/generate-thumbnail'
     | '/tools/ai-thumbnail-generator'
     | '/tools/bio-generator'
     | '/tools/caption-generator'
@@ -243,6 +253,7 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/privacy'
     | '/terms'
+    | '/api/generate-thumbnail'
     | '/tools/ai-thumbnail-generator'
     | '/tools/bio-generator'
     | '/tools/caption-generator'
@@ -266,6 +277,7 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/privacy'
     | '/terms'
+    | '/api/generate-thumbnail'
     | '/tools/ai-thumbnail-generator'
     | '/tools/bio-generator'
     | '/tools/caption-generator'
@@ -290,6 +302,7 @@ export interface RootRouteChildren {
   HowItWorksRoute: typeof HowItWorksRoute
   PrivacyRoute: typeof PrivacyRoute
   TermsRoute: typeof TermsRoute
+  ApiGenerateThumbnailRoute: typeof ApiGenerateThumbnailRoute
   ToolsAiThumbnailGeneratorRoute: typeof ToolsAiThumbnailGeneratorRoute
   ToolsBioGeneratorRoute: typeof ToolsBioGeneratorRoute
   ToolsCaptionGeneratorRoute: typeof ToolsCaptionGeneratorRoute
@@ -355,6 +368,13 @@ declare module '@tanstack/react-router' {
       path: '/terms'
       fullPath: '/terms'
       preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/generate-thumbnail': {
+      id: '/api/generate-thumbnail'
+      path: '/api/generate-thumbnail'
+      fullPath: '/api/generate-thumbnail'
+      preLoaderRoute: typeof ApiGenerateThumbnailRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tools/': {
@@ -466,6 +486,7 @@ const rootRouteChildren: RootRouteChildren = {
   HowItWorksRoute: HowItWorksRoute,
   PrivacyRoute: PrivacyRoute,
   TermsRoute: TermsRoute,
+  ApiGenerateThumbnailRoute: ApiGenerateThumbnailRoute,
   ToolsAiThumbnailGeneratorRoute: ToolsAiThumbnailGeneratorRoute,
   ToolsBioGeneratorRoute: ToolsBioGeneratorRoute,
   ToolsCaptionGeneratorRoute: ToolsCaptionGeneratorRoute,
