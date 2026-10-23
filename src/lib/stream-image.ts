@@ -5,7 +5,10 @@ type ImagePayload = { type?: string; b64_json?: string; error?: { message?: stri
 
 /** Error carrying the HTTP status and a message that is already safe to show. */
 export class ImageStreamError extends Error {
-  constructor(message: string, public status?: number) {
+  constructor(
+    message: string,
+    public status?: number,
+  ) {
     super(message);
   }
 }
@@ -14,7 +17,7 @@ async function readError(res: Response) {
   const text = await res.text().catch(() => "");
   try {
     const json = JSON.parse(text) as { error?: string | { message?: string } };
-    return typeof json.error === "string" ? json.error : json.error?.message ?? text;
+    return typeof json.error === "string" ? json.error : (json.error?.message ?? text);
   } catch {
     return text;
   }
@@ -24,16 +27,28 @@ export async function streamImage(
   endpoint: string,
   input: Record<string, unknown>,
   onFrame: (dataUrl: string, isFinal: boolean) => void,
+  accessToken?: string,
 ): Promise<void> {
   const send = (stream: boolean) =>
-    fetch(endpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...input, stream }) });
+    fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+      },
+      body: JSON.stringify({ ...input, stream }),
+    });
   const res = await send(true);
   if (!res.ok || !res.body) throw new ImageStreamError(await readError(res), res.status);
   if (/image\/(png|jpeg|webp)/i.test(res.headers.get("Content-Type") ?? "")) {
     const blob = await res.blob();
     if (!blob.size) throw new ImageStreamError("Pollinations returned an empty image.");
     const url = URL.createObjectURL(blob);
-    try { onFrame(url, true); } finally { setTimeout(() => URL.revokeObjectURL(url), 60_000); }
+    try {
+      onFrame(url, true);
+    } finally {
+      setTimeout(() => URL.revokeObjectURL(url), 60_000);
+    }
     return;
   }
 
@@ -54,7 +69,8 @@ export async function streamImage(
         return;
       }
       const type = event.event || payload?.type;
-      if (type !== "image_generation.partial_image" && type !== "image_generation.completed") return;
+      if (type !== "image_generation.partial_image" && type !== "image_generation.completed")
+        return;
       sawAnyEvent = true;
       if (!payload?.b64_json) {
         streamError = "Image event contained no image";
@@ -86,5 +102,6 @@ export async function streamImage(
   if (!sawAnyEvent) {
     throw new ImageStreamError("The image service returned no image. No automatic retry was made.");
   }
-  if (!sawCompleted) throw new ImageStreamError("The image stopped before it finished. No thumbnail was generated.");
+  if (!sawCompleted)
+    throw new ImageStreamError("The image stopped before it finished. No thumbnail was generated.");
 }

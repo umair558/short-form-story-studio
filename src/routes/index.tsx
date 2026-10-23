@@ -23,6 +23,7 @@ import { WorkflowTool } from "@/components/workflow-tool";
 import { AdSlot } from "@/components/ad-slot";
 import { BRANDS, BrandIcon, type Brand } from "@/components/brand-icons";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { ComingSoon } from "@/components/coming-soon";
 import heroImg from "@/assets/hero-creator-tools.jpg";
 
 export const Route = createFileRoute("/")({
@@ -35,7 +36,7 @@ export const Route = createFileRoute("/")({
 });
 
 export const FAQS = [
-  { q: "Are the tools free?", a: "Yes. Every tool is free to use without an account. AI tools may have fair-use limits to keep the service available for everyone." },
+  { q: "Are the tools free?", a: "Most tools open without an account. AI thumbnail generation requires a free account and includes five successful thumbnails per UTC day." },
   { q: "Do you upload my images?", a: "No. The Image Resizer and Image Compressor run entirely in your browser. Your photos never leave your device." },
   { q: "How do the AI tools work?", a: "Your topic and options are sent securely to an AI model, which writes suggestions in real time. We don't store your text or link it to an identity. Always review results before posting." },
   { q: "Are the hashtags trending?", a: "We don't have access to live trend data, so we never claim a hashtag is trending. Suggestions are chosen for relevance to your topic. Check each platform's search for current popularity." },
@@ -94,7 +95,7 @@ function Index() {
           </div>
           <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm font-semibold text-muted-foreground">
             <li className="flex items-center gap-1.5"><BadgeCheck className="h-4 w-4 text-green" aria-hidden />Free Tools</li>
-            <li className="flex items-center gap-1.5"><UserX className="h-4 w-4 text-primary" aria-hidden />No Account Required</li>
+            <li className="flex items-center gap-1.5"><UserX className="h-4 w-4 text-primary" aria-hidden />Most Tools Without Login</li>
             <li className="flex items-center gap-1.5"><Heart className="h-4 w-4 text-orange" aria-hidden />Built for Creators</li>
           </ul>
         </div>
@@ -129,7 +130,7 @@ function Index() {
 
       {/* Featured workflow */}
       <section aria-labelledby="workflow-title" className="mx-auto mt-6 max-w-6xl px-4 sm:px-6">
-        <div className="rounded-3xl border border-violet/20 bg-gradient-to-br from-primary-soft via-background to-violet-soft p-5 shadow-soft sm:p-8">
+        <div className="border-y border-violet/20 bg-primary-soft p-5 sm:p-8">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <span className="inline-flex items-center gap-1.5 rounded-full bg-violet-soft px-3 py-1 text-xs font-bold text-violet">
@@ -149,7 +150,7 @@ function Index() {
       {/* Popular */}
       <section aria-labelledby="popular" className="mx-auto mt-20 max-w-6xl px-4 sm:px-6">
         <SectionHead id="popular" eyebrow="Most used" title="Popular Creator Tools" />
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="tool-row mt-8 sm:grid-cols-2 lg:grid-cols-4">
           {popular.map((t) => <ToolCard key={t.slug} tool={t} />)}
         </div>
       </section>
@@ -157,7 +158,7 @@ function Index() {
       {/* Finder */}
       <section aria-labelledby="finder" className="mx-auto mt-20 max-w-6xl px-4 sm:px-6">
         <SectionHead id="finder" eyebrow="Browse" title="Find the Right Tool" />
-        <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="tool-row mt-8 sm:grid-cols-2 lg:grid-cols-4">
           {FINDERS.map((f) => {
             const n = filterTools("", f.cat).length;
             return (
@@ -178,12 +179,13 @@ function Index() {
 
       {/* All tools */}
       <section id="tools" aria-labelledby="all-tools" className="mx-auto mt-20 max-w-6xl scroll-mt-24 px-4 sm:px-6">
-        <SectionHead id="all-tools" eyebrow="Free" title="All tools" intro="Pick a tool to get started. No sign-up needed." />
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <SectionHead id="all-tools" eyebrow="Free" title="All tools" intro="Pick your next tool. Sign in for five daily AI thumbnails." />
+        <div className="tool-row mt-8 sm:grid-cols-2 lg:grid-cols-3">
           {TOOLS.map((t) => <ToolCard key={t.slug} tool={t} />)}
         </div>
       </section>
 
+      <div className="mx-auto max-w-6xl px-4 sm:px-6"><ComingSoon /></div>
       <div className="mx-auto max-w-6xl px-4 sm:px-6"><AdSlot id="home-mid" /></div>
 
       {/* How it works */}

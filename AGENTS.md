@@ -17,3 +17,7 @@
 - Image tools run fully client-side via canvas (`src/lib/image.ts`) and are lazy-loaded behind `ClientOnly`; no image uploads.
 - Ad placements use `AdSlot`, which renders nothing until a provider is configured; no fake ads.
 - Platform logos come only from `src/components/brand-icons.tsx` (official Simple Icons paths) and per-tool colours from `tone` in the registry mapped via `src/lib/tone.ts`; keeps brand marks accurate and colour classes literal for Tailwind.
+- Theme roles use global semantic CSS variables and the header saves the selected theme locally, so every public and account page shares one palette.
+- A single root AuthProvider owns identity transitions; protected account routes use the pathless client-only gate, preventing duplicate subscriptions and SSR login loops.
+- The thumbnail proxy validates the bearer user before privileged quota RPCs; only service-role reservation/finalization functions may write usage, with per-user/day row locks and pending reservations preventing concurrent bypasses.
+- Mobile tool collections use the shared tool-row layout; upcoming tools are separate noninteractive cards, never fake registry entries.

@@ -1,0 +1,47 @@
+CREATE TABLE public.profiles (id uuid PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE, name text NOT NULL DEFAULT '' CHECK (char_length(name) <= 100), created_at timestamptz NOT NULL DEFAULT now());
+GRANT SELECT, UPDATE ON public.profiles TO authenticated;
+GRANT ALL ON public.profiles TO service_role;
+ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+CREATE POLICY profile_read ON public.profiles FOR SELECT TO authenticated USING (auth.uid() = id);
+CREATE POLICY profile_update ON public.profiles FOR UPDATE TO authenticated USING (auth.uid() = id) WITH CHECK (auth.uid() = id);
+CREATE FUNCTION public.create_creator_profile() RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$ BEGIN INSERT INTO public.profiles(id,name) VALUES (NEW.id,left(coalesce(NEW.raw_user_meta_data->>'name',''),100)); RETURN NEW; END; $$;
+REVOKE ALL ON FUNCTION public.create_creator_profile() FROM PUBLIC, anon, authenticated;
+CREATE TRIGGER creator_profile_signup AFTER INSERT ON auth.users FOR EACH ROW EXECUTE FUNCTION public.create_creator_profile();
+INSERT INTO public.profiles(id,name) SELECT id,left(coalesce(raw_user_meta_data->>'name',''),100) FROM auth.users ON CONFLICT DO NOTHING;
+CREATE TABLE public.thumbnail_days (user_id uuid NOT NULL, day date NOT NULL, successful integer NOT NULL DEFAULT 0 CHECK (successful BETWEEN 0 AND 5), last_attempt timestamptz, PRIMARY KEY(user_id,day));
+GRANT SELECT ON public.thumbnail_days TO authenticated;
+GRANT ALL ON public.thumbnail_days TO service_role;
+ALTER TABLE public.thumbnail_days ENABLE ROW LEVEL SECURITY;
+CREATE POLICY usage_read ON public.thumbnail_days FOR SELECT TO authenticated USING (auth.uid() = user_id);
+CREATE TABLE public.thumbnail_requests (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), user_id uuid NOT NULL, day date NOT NULL, status text NOT NULL DEFAULT 'pending' CHECK (status IN ('pending','success','failed')), created_at timestamptz NOT NULL DEFAULT now(), finished_at timestamptz);
+GRANT SELECT ON public.thumbnail_requests TO authenticated;
+GRANT ALL ON public.thumbnail_requests TO service_role;
+ALTER TABLE public.thumbnail_requests ENABLE ROW LEVEL SECURITY;
+CREATE POLICY request_read ON public.thumbnail_requests FOR SELECT TO authenticated USING (auth.uid() = user_id);
+CREATE INDEX thumbnail_pending_user ON public.thumbnail_requests(user_id,day,created_at) WHERE status='pending';
+CREATE INDEX thumbnail_history_user ON public.thumbnail_requests(user_id,created_at DESC);
+CREATE FUNCTION public.reserve_thumbnail(p_user uuid) RETURNS uuid LANGUAGE plpgsql SECURITY DEFINER SET search_path=public AS $$ DECLARE d date := (now() AT TIME ZONE 'UTC')::date; u public.thumbnail_days; active_count integer; rid uuid; BEGIN
+INSERT INTO public.thumbnail_days(user_id,day) VALUES(p_user,d) ON CONFLICT DO NOTHING;
+SELECT * INTO u FROM public.thumbnail_days WHERE user_id=p_user AND day=d FOR UPDATE;
+UPDATE public.thumbnail_requests SET status='failed',finished_at=now() WHERE user_id=p_user AND status='pending' AND created_at < now()-interval '10 minutes';
+SELECT count(*) INTO active_count FROM public.thumbnail_requests WHERE user_id=p_user AND day=d AND status='pending';
+IF u.successful+active_count >= 5 THEN RAISE EXCEPTION 'Daily limit reached: five thumbnails per UTC day'; END IF;
+IF active_count > 0 THEN RAISE EXCEPTION 'A thumbnail is already generating. Please wait.'; END IF;
+IF u.last_attempt > now()-interval '10 seconds' THEN RAISE EXCEPTION 'Please wait ten seconds before trying again.'; END IF;
+UPDATE public.thumbnail_days SET last_attempt=now() WHERE user_id=p_user AND day=d;
+INSERT INTO public.thumbnail_requests(user_id,day) VALUES(p_user,d) RETURNING id INTO rid;
+RETURN rid; END; $$;
+CREATE FUNCTION public.finish_thumbnail(p_user uuid,p_request uuid,p_success boolean) RETURNS integer LANGUAGE plpgsql SECURITY DEFINER SET search_path=public AS $$ DECLARE r public.thumbnail_requests; total integer; BEGIN
+SELECT * INTO r FROM public.thumbnail_requests WHERE id=p_request AND user_id=p_user;
+IF NOT FOUND THEN RAISE EXCEPTION 'Unknown thumbnail request'; END IF;
+PERFORM 1 FROM public.thumbnail_days WHERE user_id=p_user AND day=r.day FOR UPDATE;
+SELECT * INTO r FROM public.thumbnail_requests WHERE id=p_request AND user_id=p_user FOR UPDATE;
+IF r.status='pending' THEN
+IF p_success THEN UPDATE public.thumbnail_days SET successful=successful+1 WHERE user_id=p_user AND day=r.day; END IF;
+UPDATE public.thumbnail_requests SET status=CASE WHEN p_success THEN 'success' ELSE 'failed' END,finished_at=now() WHERE id=r.id;
+END IF;
+SELECT successful INTO total FROM public.thumbnail_days WHERE user_id=p_user AND day=r.day;
+RETURN greatest(0,5-total); END; $$;
+REVOKE ALL ON FUNCTION public.reserve_thumbnail(uuid) FROM PUBLIC,anon,authenticated;
+REVOKE ALL ON FUNCTION public.finish_thumbnail(uuid,uuid,boolean) FROM PUBLIC,anon,authenticated;
+GRANT EXECUTE ON FUNCTION public.reserve_thumbnail(uuid),public.finish_thumbnail(uuid,uuid,boolean) TO service_role;
