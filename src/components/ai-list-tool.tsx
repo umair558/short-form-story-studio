@@ -4,6 +4,8 @@ import { Loader2, RefreshCw, Sparkles, AlertCircle } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { generateList, type ListInput } from "@/lib/ai.functions";
 import { CopyButton } from "./copy-button";
+import { useAccount } from "./auth-provider";
+import { SignInPrompt } from "./sign-in-prompt";
 
 export interface FieldDef {
   name: string;

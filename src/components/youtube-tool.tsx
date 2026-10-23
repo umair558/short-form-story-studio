@@ -4,6 +4,8 @@ import { RefreshCw } from "lucide-react";
 import { generateYoutube } from "@/lib/ai.functions";
 import { CopyButton } from "./copy-button";
 import { ErrorNote, FieldInput, SubmitButton, useAiCall } from "./ai-list-tool";
+import { useAccount } from "./auth-provider";
+import { SignInPrompt } from "./sign-in-prompt";
 
 const STYLES = ["Educational", "Entertaining", "Story-driven", "Review", "Tutorial"] as const;
 type Res = { titles: string[]; description: string; tags: string[] };
@@ -15,6 +17,7 @@ export function YoutubeTool() {
   const [localError, setLocalError] = useState<string | null>(null);
   const call = useServerFn(generateYoutube);
   const { loading, error, data, run } = useAiCall<Res>();
+  const { user } = useAccount();
 
   function submit(e?: FormEvent) {
     e?.preventDefault();
@@ -22,6 +25,8 @@ export function YoutubeTool() {
     setLocalError(null);
     run(() => call({ data: { topic, keywords, style: style as (typeof STYLES)[number] } }));
   }
+
+  if (!user) return <SignInPrompt toolName="the YouTube Title & Description Generator" />;
 
   return (
     <div>
