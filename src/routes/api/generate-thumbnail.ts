@@ -29,6 +29,9 @@ export const Route = createFileRoute("/api/generate-thumbnail")({
           return fail(failure.status, failure.message);
         }
         const contentType = upstream.headers.get("Content-Type") ?? "";
+        if (upstream.status >= 300 && upstream.status < 400) {
+          return fail(502, "Pollinations redirected the request instead of returning an image. No thumbnail was generated. Try Retry manually.");
+        }
         if (!upstream.ok) {
           const payload: unknown = /application\/(?:json|[\w.-]+\+json)/i.test(contentType) ? await upstream.json().catch(() => null) : null;
           return fail(upstream.status, pollinationsError(upstream.status, payload, apiKey));

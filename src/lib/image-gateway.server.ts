@@ -18,7 +18,8 @@ export function generateImagePollinations(apiKey: string, prompt: string, width:
     headers: { Authorization: `Bearer ${apiKey}`, "Cache-Control": "no-cache, no-store" },
     // Use HTTP headers and unique seeds: RequestInit.cache depends on Worker compatibility flags.
     signal: AbortSignal.timeout(180_000),
-    redirect: "error",
+    // Workers reject redirect:"error" with an instant TypeError; "manual" is supported and 3xx is treated as failure.
+    redirect: "manual",
   });
 }
 
