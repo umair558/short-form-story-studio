@@ -45,7 +45,7 @@ function ProfileMenu() {
   }
 
   const name =
-    (user.user_metadata?.name as string | undefined) || user.email || "Account";
+    (user.user_metadata?.["name"] as string | undefined) || user.email || "Account";
   const initial = name.trim().charAt(0).toUpperCase();
 
   return (
