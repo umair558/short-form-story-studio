@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { thumbnailInput, thumbnailPrompt, thumbnailSize, thumbnailErrorMessage } from "@/lib/ai-thumbnail";
+import { thumbnailInput, thumbnailPrompt, thumbnailSize } from "@/lib/ai-thumbnail";
 
 function fail(status: number, error: string) {
   return Response.json({ error }, { status });
@@ -15,36 +15,25 @@ export const Route = createFileRoute("/api/generate-thumbnail")({
         const raw = body && typeof body === "object" ? (body as Record<string, unknown>) : {};
         const parsed = thumbnailInput.safeParse(raw);
         if (!parsed.success) return fail(400, parsed.error.issues[0]?.message ?? "Please check your options.");
-        const apiKey = process.env["AGENTROUTER_API_KEY"];
-        if (!apiKey) return fail(401, "AI image generation is not configured on this site yet.");
-        const { generateImageAgentRouter, agentRouterSettings } = await import("@/lib/image-gateway.server");
+        const apiKey = process.env["POLLINATIONS_API_KEY"];
+        if (!apiKey) return fail(401, "Pollinations API key is not configured on this site yet.");
+        const { generateImagePollinations, pollinationsError, POLLINATIONS_MODEL } = await import("@/lib/image-gateway.server");
         const { width, height } = thumbnailSize(parsed.data.aspectRatio);
         let upstream: Response;
         try {
-          upstream = await generateImageAgentRouter({ ...agentRouterSettings, apiKey }, thumbnailPrompt(parsed.data), `${width}x${height}`);
+          upstream = await generateImagePollinations(apiKey, thumbnailPrompt(parsed.data), width, height);
         } catch {
-          return fail(502, "Could not reach the image service. Please try again later.");
+          return fail(502, "Could not reach Pollinations. No fallback or automatic retry was used.");
         }
         const contentType = upstream.headers.get("Content-Type") ?? "";
-        if (!contentType.includes("application/json")) {
-          // The provider answered with a web page (for example an access-verification
-          // page) instead of an API response, so no image was generated.
-          console.error("Image service returned a non-API response", upstream.status, contentType);
-          return fail(502, "The image service did not accept the request (it returned a web page instead of an image). Please try again later.");
-        }
-        const json = (await upstream.json().catch(() => null)) as { data?: { b64_json?: string }[]; error?: { message?: string } | string; message?: string } | null;
         if (!upstream.ok) {
-          const detail = json ? (typeof json.error === "string" ? json.error : json.error?.message ?? json.message) : undefined;
-          console.error("Thumbnail generation failed", upstream.status, detail);
-          return fail(upstream.status, thumbnailErrorMessage(upstream.status, detail?.slice(0, 300)));
+          const payload: unknown = contentType.includes("application/json") ? await upstream.json().catch(() => null) : null;
+          return fail(upstream.status, pollinationsError(upstream.status, payload, apiKey));
         }
-        const b64 = json?.data?.[0]?.b64_json;
-        if (!b64) {
-          console.error("Image service returned no image", JSON.stringify(json).slice(0, 300));
-          return fail(502, "The image service returned no image. The configured model may not support image generation.");
+        if (!/image\/(png|jpeg|webp)/i.test(contentType) || !upstream.body) {
+          return fail(502, "Pollinations returned no supported image. No thumbnail was generated.");
         }
-        const sse = `event: image_generation.completed\ndata: ${JSON.stringify({ type: "image_generation.completed", b64_json: b64 })}\n\n`;
-        return new Response(sse, { status: 200, headers: { "Content-Type": "text/event-stream", "Cache-Control": "no-cache, no-transform" } });
+        return new Response(upstream.body, { status: 200, headers: { "Content-Type": contentType, "Cache-Control": "no-store", "X-Image-Provider": "Pollinations", "X-Image-Model": POLLINATIONS_MODEL, "X-Content-Type-Options": "nosniff" } });
       },
     },
   },

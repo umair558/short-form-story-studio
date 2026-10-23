@@ -29,6 +29,13 @@ export async function streamImage(
     fetch(endpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...input, stream }) });
   const res = await send(true);
   if (!res.ok || !res.body) throw new ImageStreamError(await readError(res), res.status);
+  if (/image\/(png|jpeg|webp)/i.test(res.headers.get("Content-Type") ?? "")) {
+    const blob = await res.blob();
+    if (!blob.size) throw new ImageStreamError("Pollinations returned an empty image.");
+    const url = URL.createObjectURL(blob);
+    try { onFrame(url, true); } finally { setTimeout(() => URL.revokeObjectURL(url), 60_000); }
+    return;
+  }
 
   let sawCompleted = false;
   let sawAnyEvent = false;
@@ -77,13 +84,7 @@ export async function streamImage(
   }
   if (streamError) throw new ImageStreamError(streamError);
   if (!sawAnyEvent) {
-    const replay = await send(false);
-    if (!replay.ok) throw new ImageStreamError(await readError(replay), replay.status);
-    const json = (await replay.json()) as { data?: { b64_json?: string }[] };
-    const b64 = json.data?.[0]?.b64_json;
-    if (!b64) throw new ImageStreamError("The image service returned no image. No thumbnail was generated.");
-    onFrame(`data:image/png;base64,${b64}`, true);
-    return;
+    throw new ImageStreamError("The image service returned no image. No automatic retry was made.");
   }
   if (!sawCompleted) throw new ImageStreamError("The image stopped before it finished. No thumbnail was generated.");
 }
