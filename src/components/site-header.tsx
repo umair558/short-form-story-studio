@@ -2,6 +2,9 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Logo } from "./logo";
+import { Button } from "./ui/button";
+import { ThemeToggle } from "./theme-toggle";
+import { useAccount } from "./auth-provider";
 
 const NAV = [
   { to: "/tools", label: "Tools" },
@@ -12,11 +15,12 @@ const NAV = [
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const { user } = useAccount();
   return (
     <header className="sticky top-0 z-40 border-b bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <Logo />
-        <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
+        <nav aria-label="Main" className="hidden items-center gap-1 lg:flex">
           {NAV.map((n) => (
             <Link
               key={n.to}
@@ -34,19 +38,23 @@ export function SiteHeader() {
             Start creating <ArrowRight className="h-4 w-4" aria-hidden />
           </Link>
         </nav>
-        <button
+        <div className="flex items-center gap-2">
+        <ThemeToggle />
+        <Button asChild variant="outline" className="h-10 px-3"><Link to={user ? '/account' : '/auth'}>{user ? 'Account' : 'Sign in'}</Link></Button>
+        <Button
           type="button"
-          className="inline-flex h-11 w-11 items-center justify-center rounded-lg border transition-colors hover:bg-muted md:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-lg border transition-colors hover:bg-muted lg:hidden"
           aria-expanded={open}
           aria-controls="mobile-nav"
           aria-label={open ? "Close menu" : "Open menu"}
           onClick={() => setOpen((v) => !v)}
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        </Button>
+        </div>
       </div>
       {open && (
-        <nav id="mobile-nav" aria-label="Mobile" className="border-t bg-background shadow-soft md:hidden">
+        <nav id="mobile-nav" aria-label="Mobile" className="border-t bg-background shadow-soft lg:hidden">
           <ul className="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-3">
             {NAV.map((n) => (
               <li key={n.to}>

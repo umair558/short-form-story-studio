@@ -1,7 +1,8 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouter, useNavigate } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, ArrowLeft } from "lucide-react";
 import { AdSlot } from "./ad-slot";
+import { Button } from "./ui/button";
 
 export function PageHeader({ eyebrow, title, intro }: { eyebrow?: string; title: string; intro?: ReactNode }) {
   return (
@@ -28,9 +29,12 @@ export function ToolPage({
   guide: ReactNode;
   faq?: { q: string; a: string }[];
 }) {
+  const router = useRouter();
+  const navigate = useNavigate();
   return (
     <main>
       <nav aria-label="Breadcrumb" className="mx-auto max-w-3xl px-4 pt-6 text-sm text-muted-foreground sm:px-6">
+        <Button variant="ghost" size="icon" title="Back" aria-label="Back to previous page" className="mr-3" onClick={() => { if (router.history.canGoBack()) router.history.back(); else void navigate({ to: '/tools' }); }}><ArrowLeft /></Button>
         <Link to="/" className="hover:text-foreground">Home</Link> <span aria-hidden>/</span>{" "}
         <Link to="/tools" className="hover:text-foreground">Tools</Link> <span aria-hidden>/</span>{" "}
         <span className="text-foreground">{title}</span>

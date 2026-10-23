@@ -24,9 +24,10 @@ export async function streamImage(
   endpoint: string,
   input: Record<string, unknown>,
   onFrame: (dataUrl: string, isFinal: boolean) => void,
+  accessToken?: string,
 ): Promise<void> {
   const send = (stream: boolean) =>
-    fetch(endpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...input, stream }) });
+    fetch(endpoint, { method: "POST", headers: { "Content-Type": "application/json", ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}) }, body: JSON.stringify({ ...input, stream }) });
   const res = await send(true);
   if (!res.ok || !res.body) throw new ImageStreamError(await readError(res), res.status);
   if (/image\/(png|jpeg|webp)/i.test(res.headers.get("Content-Type") ?? "")) {
