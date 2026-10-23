@@ -68,9 +68,6 @@ export function ToolBrowser({
           </Button>
         ))}
       </div>
-      <p className="mt-4 text-xs text-muted-foreground sm:hidden">
-        More tools <span aria-hidden>→</span>
-      </p>
       <p className="sr-only" aria-live="polite">
         {results.length} tools found
       </p>

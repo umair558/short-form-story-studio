@@ -6,6 +6,8 @@ import { CONTENT_TYPES, PLATFORMS } from "@/lib/tools";
 import { cn } from "@/lib/utils";
 import { CopyButton } from "./copy-button";
 import { ErrorNote, FieldInput, SubmitButton, useAiCall } from "./ai-list-tool";
+import { useAccount } from "./auth-provider";
+import { SignInPrompt } from "./sign-in-prompt";
 
 type Pkg = { hook: string; caption: string; hashtags: string[]; thumbnailText: string };
 
@@ -23,6 +25,7 @@ export function WorkflowTool({ compact = false }: { compact?: boolean }) {
   const [localError, setLocalError] = useState<string | null>(null);
   const call = useServerFn(generateWorkflow);
   const { loading, error, data, run } = useAiCall<Pkg>();
+  const { user } = useAccount();
 
   function submit(e: FormEvent) {
     e.preventDefault();
@@ -43,6 +46,8 @@ export function WorkflowTool({ compact = false }: { compact?: boolean }) {
     ? { hook: data.hook, caption: data.caption, hashtags: data.hashtags.join(" "), thumb: data.thumbnailText }
     : null;
   const all = texts ? SLOTS.map((s) => `${s.label}:\n${texts[s.key]}`).join("\n\n") : "";
+
+  if (!user) return <SignInPrompt toolName="Creator Workflow" />;
 
   return (
     <div>

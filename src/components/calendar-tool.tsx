@@ -8,6 +8,8 @@ import { PLATFORMS } from "@/lib/tools";
 import { cn } from "@/lib/utils";
 import { CopyButton } from "./copy-button";
 import { ErrorNote, FieldInput, SubmitButton, useAiCall } from "./ai-list-tool";
+import { useAccount } from "./auth-provider";
+import { SignInPrompt } from "./sign-in-prompt";
 
 const GOALS = ["Grow followers", "Build engagement", "Sell a product", "Build authority"] as const;
 const LENGTHS = [7, 14, 30] as const;
@@ -21,6 +23,7 @@ export function CalendarTool() {
   const [localError, setLocalError] = useState<string | null>(null);
   const call = useServerFn(generateCalendar);
   const { loading, error, data, run } = useAiCall<{ days: CalendarDay[] }>();
+  const { user } = useAccount();
 
   useEffect(() => setStart(new Date().toISOString().slice(0, 10)), []);
 
@@ -33,6 +36,8 @@ export function CalendarTool() {
 
   const startDate = start || new Date().toISOString().slice(0, 10);
   const text = data ? data.days.map((d) => `Day ${d.day} (${dateForDay(startDate, d.day)}) — ${d.theme} · ${d.format}\n${d.idea}\nHook: ${d.hook}`).join("\n\n") : "";
+
+  if (!user) return <SignInPrompt toolName="the Content Calendar" />;
 
   return (
     <div>

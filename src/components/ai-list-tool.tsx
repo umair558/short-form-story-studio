@@ -4,6 +4,8 @@ import { Loader2, RefreshCw, Sparkles, AlertCircle } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { generateList, type ListInput } from "@/lib/ai.functions";
 import { CopyButton } from "./copy-button";
+import { useAccount } from "./auth-provider";
+import { SignInPrompt } from "./sign-in-prompt";
 
 export interface FieldDef {
   name: string;
@@ -98,6 +100,7 @@ export function AiListTool({
   const call = useServerFn(generateList);
   const { loading, error, data, run } = useAiCall<{ items: string[] }>();
   const [localError, setLocalError] = useState<string | null>(null);
+  const { user } = useAccount();
 
   function submit(e?: FormEvent) {
     e?.preventDefault();
@@ -106,6 +109,8 @@ export function AiListTool({
     setLocalError(null);
     run(() => call({ data: { tool, ...values } as ListInput }));
   }
+
+  if (!user) return <SignInPrompt toolName={resultTitle} />;
 
   return (
     <div>

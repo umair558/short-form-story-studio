@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 const platform = z.enum(["TikTok", "Instagram Reels", "YouTube Shorts", "X"]);
 const text = (max: number) => z.string().trim().min(2, "Please enter at least 2 characters.").max(max);
@@ -35,6 +36,7 @@ function buildPrompt(d: ListInput): string {
 }
 
 export const generateList = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
   .validator((input: unknown) => listInput.parse(input))
   .handler(async ({ data }) => {
     const { generateStructured } = await import("./ai.server");
@@ -52,6 +54,7 @@ export const workflowInput = z.object({
 });
 
 export const generateWorkflow = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
   .validator((input: unknown) => workflowInput.parse(input))
   .handler(async ({ data }) => {
     const { generateStructured } = await import("./ai.server");
@@ -80,6 +83,7 @@ export const youtubeInput = z.object({
 });
 
 export const generateYoutube = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
   .validator((input: unknown) => youtubeInput.parse(input))
   .handler(async ({ data }) => {
     const { generateStructured } = await import("./ai.server");
@@ -105,6 +109,7 @@ export const calendarInput = z.object({
 export type CalendarDay = { day: number; theme: string; format: string; idea: string; hook: string };
 
 export const generateCalendar = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
   .validator((input: unknown) => calendarInput.parse(input))
   .handler(async ({ data }) => {
     const { generateStructured } = await import("./ai.server");

@@ -17,6 +17,7 @@ import { Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAccount } from "./auth-provider";
+import { SignInPrompt } from "./sign-in-prompt";
 import { utcDay } from "@/lib/account-rules";
 
 type Result = { url: string; blob: Blob; width: number; height: number };
@@ -152,6 +153,8 @@ export function AiThumbnailGenerator() {
 
   const frame =
     input.aspectRatio === "16:9" ? "aspect-video w-full" : "mx-auto aspect-[9/16] w-full max-w-72";
+
+  if (ready && !user) return <SignInPrompt toolName="the AI Thumbnail Generator" />;
 
   return (
     <div className="space-y-6">
