@@ -70,6 +70,7 @@ function SectionHead({ id, eyebrow, title, intro }: { id: string; eyebrow: strin
 
 function Index() {
   const popular = TOOLS.filter((t) => t.popular);
+  const [workflowOpen, setWorkflowOpen] = useState(false);
   return (
     <main>
       {/* Hero */}
