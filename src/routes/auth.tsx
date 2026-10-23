@@ -38,7 +38,7 @@ function AuthPage() {
         });
         if (error) throw error;
         if (data.session) await navigate({ to: "/account" });
-        else setMessage("Check your email to confirm your account before signing in.");
+        else setMessage("Account created. You can sign in now.");
       } else if (mode === "forgot") {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
           redirectTo: `${window.location.origin}/reset-password`,
