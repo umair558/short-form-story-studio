@@ -4,4 +4,4 @@
 - [x] Register the dedicated tool page and preserve existing tools.
 - [x] Pass 24 tests and verify desktop/mobile controls, honest quota errors, and no mobile overflow.
 - [x] Switch to built-in AI image generation (Google key had zero quota).
-- [ ] Verify real generation, regenerate and PNG download in browser.
+- [x] Verify real generation, regenerate and PNG download in browser (desktop + mobile).
