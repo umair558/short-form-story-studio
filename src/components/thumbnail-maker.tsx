@@ -126,6 +126,7 @@ export function ThumbnailMaker() {
     setPast((h) => {
       if (!h.length) return h;
       const prev = h[h.length - 1];
+      if (!prev) return h;
       setFuture((f) => [s, ...f]);
       setS(prev);
       return h.slice(0, -1);
@@ -135,6 +136,7 @@ export function ThumbnailMaker() {
     setFuture((f) => {
       if (!f.length) return f;
       const [next, ...rest] = f;
+      if (!next) return f;
       setPast((h) => [...h, s]);
       setS(next);
       return rest;

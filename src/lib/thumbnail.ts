@@ -188,9 +188,9 @@ function sharpened(
     for (let x = 1; x < w - 1; x++) {
       const i = (y * w + x) * 4;
       for (let ch = 0; ch < 3; ch++) {
-        const centre = src[i + ch] * (1 + 4 * k);
+        const centre = src[i + ch]! * (1 + 4 * k);
         const neighbours =
-          (src[i - 4 + ch] + src[i + 4 + ch] + src[i - w * 4 + ch] + src[i + w * 4 + ch]) * k;
+          (src[i - 4 + ch]! + src[i + 4 + ch]! + src[i - w * 4 + ch]! + src[i + w * 4 + ch]!) * k;
         d[i + ch] = centre - neighbours;
       }
     }
