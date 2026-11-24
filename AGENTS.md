@@ -15,7 +15,7 @@
 - Thumbnail responses are binary images decoded in the browser and re-exported as exact-size PNG; no automatic retries or provider/sample-image fallback, avoiding hidden charges.
 - Each thumbnail request uses a fresh explicit provider-supported random seed and no-cache/no-store HTTP headers, avoiding cached variations without compatibility-sensitive RequestInit.cache options; fetch uses redirect:"manual" because Workers throw on redirect:"error"; connection failures offer manual Retry only and log safe categories, never raw exceptions or credentials.
 - Image tools run fully client-side via canvas (`src/lib/image.ts`) and are lazy-loaded behind `ClientOnly`; no image uploads.
-- Ad placements use `AdSlot`, which renders nothing until a provider is configured; no fake ads.
+- Adsterra ads live in `src/components/ad-slot.tsx`: Social Bar global, Native Banner only in the home `home-mid` slot, signed-in users only, never on auth pages; scripts injected once client-side to avoid duplicates and slow loads.
 - Platform logos come only from `src/components/brand-icons.tsx` (official Simple Icons paths) and per-tool colours from `tone` in the registry mapped via `src/lib/tone.ts`; keeps brand marks accurate and colour classes literal for Tailwind.
 - Theme roles use global semantic CSS variables and the header saves the selected theme locally, so every public and account page shares one palette.
 - A single root AuthProvider owns identity transitions; protected account routes use the pathless client-only gate, preventing duplicate subscriptions and SSR login loops.

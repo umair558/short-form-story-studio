@@ -15,6 +15,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { AuthProvider } from "@/components/auth-provider";
+import { SocialBarAd } from "@/components/ad-slot";
 
 function NotFoundComponent() {
   return (
@@ -147,6 +148,7 @@ function RootComponent() {
             <Outlet />
           </div>
           <SiteFooter />
+          <SocialBarAd />
         </div>
       </AuthProvider>
     </QueryClientProvider>
